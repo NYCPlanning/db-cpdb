@@ -10,6 +10,7 @@ jobs:
     steps:
       - run: echo "${{ github.event.head_commit.message }}"
   _01_dataloading:
+    needs: skip
     name: dataloading
     runs-on: self-hosted
     container: sptkl/cook:latest
@@ -31,6 +32,7 @@ jobs:
         run: |
           python3 attributes/id_bin_map_psql.py
   _02_building:
+    needs: _01_dataloading
     name: building part 1
     runs-on: self-hosted
     container: mdillon/postgis:latest
@@ -43,6 +45,7 @@ jobs:
         working-directory: capitalprojects_build
         run: ./02_build_attribute_part1.sh
   _03_geocode_agencyverified: 
+    needs: _02_building
     name: geocode agencyverified
     runs-on: self-hosted
     container: sptkl/docker-geosupport:latest
@@ -55,6 +58,7 @@ jobs:
         working-directory: capitalprojects_build/python
         run: python3 attributes_geom_agencyverified_geocode.py
   _04_building:
+    needs: _03_geocode_agencyverified
     name: building part 2
     runs-on: self-hosted
     container: mdillon/postgis:latest
@@ -67,6 +71,7 @@ jobs:
         working-directory: capitalprojects_build
         run: ./04_build_attribute_part2.sh
   _05_geocode_maprojid_parkid: 
+    needs: _04_building
     name: geocode maprojid_parkid
     runs-on: self-hosted
     container: sptkl/docker-geosupport:latest
@@ -79,12 +84,16 @@ jobs:
         working-directory: capitalprojects_build/python
         run: python3 attributes_maprojid_parkid.py
   _06_building:
+    needs: _05_geocode_maprojid_parkid
     name: building part 3 + admin bounds + export
     runs-on: self-hosted
     container: mdillon/postgis:latest
     env:
         RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
         BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
+        MINIO_S3_ENDPOINT: ${{ secrets.MINIO_S3_ENDPOINT }}
+        MINIO_ACCESS_KEY_ID: ${{ secrets.MINIO_ACCESS_KEY_ID }}
+        MINIO_SECRET_ACCESS_KEY: ${{ secrets.MINIO_SECRET_ACCESS_KEY }}
     steps: 
       - uses: actions/checkout@v2
       - name: 06_build_attribute_part3
