@@ -14,5 +14,5 @@ jobs:
     - name: run
       working-directory: capitalprojects_build
       run: |
-        pip3 install pathlib
+        pip3 install pathlib requests lxml
         ./11_new_spending.sh
