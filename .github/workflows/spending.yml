@@ -5,7 +5,7 @@ on: [push]
 jobs:
   migration:
     runs-on: ubuntu-latest
-    container: sptkl/cook-latest
+    container: sptkl/cook:latest
     env:
         RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
         BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
