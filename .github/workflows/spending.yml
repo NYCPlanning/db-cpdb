@@ -1,0 +1,19 @@
+name: Migration
+
+on:
+  schedule:
+    - cron: '5s 16 * * *'
+jobs:
+  migration:
+    runs-on: ubuntu-latest
+    container: sptkl/cook-latest
+    env:
+        RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
+        BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
+    steps:
+    - uses: actions/checkout@v2
+    - name:
+      working-directory: capitalprojects_build
+      run: |
+        pip3 install pathlib
+        ./11_new_spending.sh
