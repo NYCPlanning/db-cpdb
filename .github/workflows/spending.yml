@@ -17,9 +17,9 @@ jobs:
             RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
             BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
         steps:
-        - uses: actions/checkout@v2
-        - name: run
-          working-directory: capitalprojects_build
-          run: |
-              pip3 install pathlib requests lxml
-              ./11_new_spending.sh
+            - uses: actions/checkout@v2
+            - name: run
+            working-directory: capitalprojects_build
+            run: |
+                pip3 install pathlib requests lxml
+                ./11_new_spending.sh

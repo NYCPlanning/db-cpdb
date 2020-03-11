@@ -62,3 +62,12 @@ psql $BUILD_ENGINE -v ccp_v=$ccp_v -f sql/projects_spending_byyear.sql
 psql $BUILD_ENGINE -c "\copy (
     SELECT * FROM cpdb_projects_spending_byyear) TO stdout DELIMITER ',' CSV HEADER;" \
         > output/cpdb_projects_spending_byyear.csv
+
+curl -O https://dl.min.io/client/mc/release/linux-amd64/mc
+chmod +x mc
+
+./mc config host add mino $MINIO_S3_ENDPOINT $MINIO_ACCESS_KEY_ID $MINIO_SECRET_ACCESS_KEY --api S3v4
+./mc rm -r --force mino/db-cpdb/latest
+./mc rm -r --force mino/db-cpdb/$DATE
+./mc cp -r output mino/db-cpdb/latest
+./mc cp -r output mino/db-cpdb/$DATE
