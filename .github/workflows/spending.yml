@@ -1,4 +1,4 @@
-name: Migration
+name: capital spending
 
 on:
   schedule:
@@ -12,7 +12,7 @@ jobs:
         BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
     steps:
     - uses: actions/checkout@v2
-    - name:
+    - name: run
       working-directory: capitalprojects_build
       run: |
         pip3 install pathlib
