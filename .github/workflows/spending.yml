@@ -1,8 +1,7 @@
 name: capital spending
 
-on:
-  schedule:
-    - cron: '7 16 * * *'
+on: [push]
+
 jobs:
   migration:
     runs-on: ubuntu-latest
