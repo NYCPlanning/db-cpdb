@@ -1,0 +1,28 @@
+name: capital spending cron
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+    skip:
+        name: Build and test
+        runs-on: self-hosted
+        if: "contains(github.event.head_commit.message, '[scrape]')"
+        steps:
+            - run: echo "${{ github.event.head_commit.message }}"
+    scrape:
+        needs: skip
+        runs-on: self-hosted
+        container: sptkl/cook:latest
+        env:
+            RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
+            BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
+        steps:
+        - uses: actions/checkout@v2
+        - name: run
+          working-directory: capitalprojects_build
+          run: |
+            pip3 install pathlib requests lxml
+            ./11_new_spending.sh
+
