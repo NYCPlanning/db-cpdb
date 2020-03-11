@@ -127,3 +127,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# ignore directories
+capitalprojects_build/analysis/output
+capitalprojects_build/output
+capitalprojects_build/downloads
+
+# Preserve version.env
+!version.env
