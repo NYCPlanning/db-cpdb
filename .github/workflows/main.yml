@@ -27,10 +27,6 @@ jobs:
         working-directory: capitalprojects_build
         run: |
           python3 python/dot_bridges.py
-      - name: dot_bridges
-        working-directory: capitalprojects_build
-        run: |
-          python3 attributes/id_bin_map_psql.py
   _02_building:
     needs: _01_dataloading
     name: building part 1

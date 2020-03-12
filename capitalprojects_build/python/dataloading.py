@@ -34,7 +34,7 @@ def ETL():
     importer.import_table(schema_name='edc_capitalprojects_ferry')
     importer.import_table(schema_name='capital_spending')
     importer.import_table(schema_name='dcp_school_districts')
-    importer.import_table(schema_name='fisa_capitalcommitments') 
+    importer.import_table(schema_name='fisa_capitalcommitments')
     importer.import_table(schema_name='dcp_cpdb_agencyverified')
     
 def LOAD(url, name):
@@ -49,3 +49,4 @@ if __name__ == "__main__":
     LOAD('https://raw.githubusercontent.com/NYCPlanning/helper_datasets/master/agencylookup.csv', 'dcp_agencylookup')
     LOAD('https://edm-recipes.nyc3.digitaloceanspaces.com/random/dcp_json.csv', 'dcp_json')
     LOAD('https://edm-recipes.nyc3.digitaloceanspaces.com/random/cpdb_geomsremove.csv', 'cpdb_badgeoms')
+    LOAD('https://raw.githubusercontent.com/NYCPlanning/db-cpdb/master/capitalprojects_build/attributes/id_bin_map.csv', 'dcp_id_bin_map')
