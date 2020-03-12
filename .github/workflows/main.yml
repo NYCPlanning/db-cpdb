@@ -92,12 +92,15 @@ jobs:
         MINIO_SECRET_ACCESS_KEY: ${{ secrets.MINIO_SECRET_ACCESS_KEY }}
     steps: 
       - uses: actions/checkout@v2
-      - name: 06_build_attribute_part3
+      - name: 06 build attribute part3
         working-directory: capitalprojects_build
         run: ./06_build_attribute_part3.sh
-      - name: 07_adminbounds
+      - name: 07 adminbounds
         working-directory: capitalprojects_build
         run: ./07_adminbounds.sh
+      - name: 08 analysis
+        working-directory: capitalprojects_build
+        run: ./08_analysis.sh
       - name: export
         working-directory: capitalprojects_build
         run: ./10_export.sh
