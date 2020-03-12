@@ -25,6 +25,7 @@ psql $BUILD_ENGINE -f sql/projectscategorization.sql
 # create old sprints table
 echo 'Creating old sprints table'
 psql $BUILD_ENGINE -c "
+    DROP TABLE IF EXISTS sprints;
     CREATE TABLE sprints (
         maprojid text, 
         bbl text , 

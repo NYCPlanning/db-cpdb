@@ -63,6 +63,9 @@ psql $BUILD_ENGINE -c "\copy (
     SELECT * FROM cpdb_projects_spending_byyear) TO stdout DELIMITER ',' CSV HEADER;" \
         > output/cpdb_projects_spending_byyear.csv
 
+apt update 
+apt install -y curl
+
 curl -O https://dl.min.io/client/mc/release/linux-amd64/mc
 chmod +x mc
 
