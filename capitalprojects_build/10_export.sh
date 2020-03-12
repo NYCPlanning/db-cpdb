@@ -67,6 +67,8 @@ psql $BUILD_ENGINE -c "\copy (
     SELECT * FROM cpdb_projects_spending_byyear) TO stdout DELIMITER ',' CSV HEADER;" \
         > output/cpdb_projects_spending_byyear.csv
 
+zip -r output.zip output
+
 curl -O https://dl.min.io/client/mc/release/linux-amd64/mc
 chmod +x mc
 
@@ -75,3 +77,5 @@ chmod +x mc
 ./mc rm -r --force mino/db-cpdb/$DATE
 ./mc cp -r output mino/db-cpdb/latest
 ./mc cp -r output mino/db-cpdb/$DATE
+./mc cp output.zip mino/db-cpdb/latest
+./mc cp output.zip mino/db-cpdb/$DATE

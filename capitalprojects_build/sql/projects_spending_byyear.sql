@@ -11,7 +11,7 @@ CREATE TABLE cpdb_projects_spending_byyear AS (
 	h.totalspenddate as spend2016,
 	i.totalspenddate as spend2017,
 	j.totalspenddate as spend2018,
-	k.totalspenddate as spend2019
+	k.totalspenddate as spend2019,
 	l.totalspenddate as spend2020
 	FROM cpdb_projects a
 	LEFT JOIN (
