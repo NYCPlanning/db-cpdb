@@ -33,7 +33,7 @@ psql $BUILD_ENGINE -c "
         geomsource text, 
         geom geometry)"
 
-psql $BUILD_ENGINE -f attributes/sprints.sql
+psql $BUILD_ENGINE -f sql/sprints.sql
 
 # update cpdb_dcpattributes with geoms from sprints
 echo 'Updating geometries from old sprints'
@@ -52,7 +52,7 @@ psql $BUILD_ENGINE -c "
       WHERE b.maprojid = a.maprojid
       "
 echo 'Loading geometries from id->bin->footprint mapping'
-psql $BUILD_ENGINE -f attributes/geom_from_id_bin_map.sql
+psql $BUILD_ENGINE -f sql/geom_from_id_bin_map.sql
 
 # agency geometries
 # These should not be overwritten unless by ddc so ddc is last.

@@ -51,4 +51,4 @@ if __name__ == "__main__":
     LOAD('https://raw.githubusercontent.com/NYCPlanning/helper_datasets/master/agencylookup.csv', 'dcp_agencylookup')
     LOAD('https://edm-recipes.nyc3.digitaloceanspaces.com/random/dcp_json.csv', 'dcp_json')
     LOAD('https://edm-recipes.nyc3.digitaloceanspaces.com/random/cpdb_geomsremove.csv', 'cpdb_badgeoms')
-    LOAD('https://raw.githubusercontent.com/NYCPlanning/db-cpdb/master/capitalprojects_build/attributes/id_bin_map.csv', 'dcp_id_bin_map')
+    LOAD('https://raw.githubusercontent.com/NYCPlanning/db-cpdb/master/capitalprojects_build/data/id_bin_map.csv', 'dcp_id_bin_map')
