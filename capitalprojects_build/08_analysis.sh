@@ -6,7 +6,7 @@ fi
 
 echo 'Starting to generate reports'
 
-mkdir -p output/analysiss
+mkdir -p output/analysis
 # Summary table by managing and sponsor agency
 echo 'Creating summary tables by managing and sponsor agency'
 psql $BUILD_ENGINE -f analysis/projects_dollars_mapped_categorized_managing.sql
