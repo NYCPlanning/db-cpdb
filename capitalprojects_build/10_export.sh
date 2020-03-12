@@ -8,6 +8,10 @@ then
   export $(cat version.env | sed 's/#.*//g' | xargs)
 fi
 
+apt update 
+apt install -y curl zip
+DATE=$(date "+%Y-%m-%d")
+
 source ./url_parse.sh $BUILD_ENGINE
 
 # cpdb_dcpattributes
@@ -62,9 +66,6 @@ psql $BUILD_ENGINE -v ccp_v=$ccp_v -f sql/projects_spending_byyear.sql
 psql $BUILD_ENGINE -c "\copy (
     SELECT * FROM cpdb_projects_spending_byyear) TO stdout DELIMITER ',' CSV HEADER;" \
         > output/cpdb_projects_spending_byyear.csv
-
-apt update 
-apt install -y curl
 
 curl -O https://dl.min.io/client/mc/release/linux-amd64/mc
 chmod +x mc
