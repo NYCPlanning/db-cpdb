@@ -135,3 +135,4 @@ capitalprojects_build/downloads
 
 # Preserve version.env
 !version.env
+*.DS_Store
