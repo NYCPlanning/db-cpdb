@@ -1,4 +1,4 @@
-name: CI
+name: CI test
 
 on: [push]
 
@@ -125,6 +125,7 @@ jobs:
         run: |
           ./10_export.sh
           zip -r output.zip output
+          DATE=$(date "+%Y-%m-%d")
           curl -O https://dl.min.io/client/mc/release/linux-amd64/mc
           chmod +x mc
 
