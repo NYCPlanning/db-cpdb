@@ -6,7 +6,7 @@ jobs:
   skip:
     name: Build and test
     runs-on: ubuntu-latest
-    if: "contains(github.event.head_commit.message, '[build]')"
+    if: "contains(github.event.head_commit.message, '[test]')"
     steps:
       - run: echo "${{ github.event.head_commit.message }}"
   _01_dataloading:
@@ -16,7 +16,7 @@ jobs:
     container: sptkl/cook:latest
     env:
         RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
-        BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
+        BUILD_ENGINE: ${{ secrets.TEST_ENGINE }}
     steps: 
       - uses: actions/checkout@v2
       - name: dataloading
@@ -34,7 +34,7 @@ jobs:
     container: mdillon/postgis:latest
     env:
         RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
-        BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
+        BUILD_ENGINE: ${{ secrets.TEST_ENGINE }}
     steps: 
       - uses: actions/checkout@v2
       - name: 02_build_attribute_part1
@@ -47,7 +47,7 @@ jobs:
     container: sptkl/docker-geosupport:latest
     env:
         RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
-        BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
+        BUILD_ENGINE: ${{ secrets.TEST_ENGINE }}
     steps: 
       - uses: actions/checkout@v2
       - name: _03_geocode_agencyverified
@@ -60,12 +60,31 @@ jobs:
     container: mdillon/postgis:latest
     env:
         RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
-        BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
+        BUILD_ENGINE: ${{ secrets.TEST_ENGINE }}
     steps: 
       - uses: actions/checkout@v2
       - name: 04_build_attribute_part2
         working-directory: capitalprojects_build
-        run: ./04_build_attribute_part2.sh
+        shell: bash
+        run: |
+          if [ -f .env ]
+          then
+            export $(cat .env | sed 's/#.*//g' | xargs)
+          fi
+          # dpr -- fuzzy string on park id
+          echo 'Adding DPR geometries based on string matching for park id'
+          psql $BUILD_ENGINE -f sql/attributes_dpr_string_id.sql
+
+          # dpr -- fuzzy string on park name
+          echo 'Adding DPR geometries based on string matching for park name'
+          psql $BUILD_ENGINE -f sql/attributes_dpr_string_name.sql
+
+          # facilities relational table
+          echo 'Creating facilities relational table based on fuzzy string matching'
+          psql $BUILD_ENGINE -f sql/attributes_maprojid_facilities.sql
+
+          # and add geometries from FabDB based on that match above
+          psql $BUILD_ENGINE -f sql/attributes_facilities.sql
   _05_geocode_maprojid_parkid: 
     needs: _04_building
     name: geocode maprojid_parkid
@@ -73,7 +92,7 @@ jobs:
     container: sptkl/docker-geosupport:latest
     env:
         RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
-        BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
+        BUILD_ENGINE: ${{ secrets.TEST_ENGINE }}
     steps: 
       - uses: actions/checkout@v2
       - name: _03_geocode_agencyverified
@@ -86,7 +105,7 @@ jobs:
     container: mdillon/postgis:latest
     env:
         RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
-        BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
+        BUILD_ENGINE: ${{ secrets.TEST_ENGINE }}
         MINIO_S3_ENDPOINT: ${{ secrets.MINIO_S3_ENDPOINT }}
         MINIO_ACCESS_KEY_ID: ${{ secrets.MINIO_ACCESS_KEY_ID }}
         MINIO_SECRET_ACCESS_KEY: ${{ secrets.MINIO_SECRET_ACCESS_KEY }}
@@ -102,7 +121,6 @@ jobs:
         working-directory: capitalprojects_build
         run: ./08_analysis.sh
       - name: export
-        if: "contains(github.event.head_commit.message, '[build]')"
         working-directory: capitalprojects_build
         run: |
           ./10_export.sh
@@ -111,9 +129,9 @@ jobs:
           chmod +x mc
 
           ./mc config host add mino $MINIO_S3_ENDPOINT $MINIO_ACCESS_KEY_ID $MINIO_SECRET_ACCESS_KEY --api S3v4
-          ./mc rm -r --force mino/db-cpdb/latest
-          ./mc rm -r --force mino/db-cpdb/$DATE
-          ./mc cp -r output mino/db-cpdb/latest
-          ./mc cp -r output mino/db-cpdb/$DATE
-          ./mc cp output.zip mino/db-cpdb/latest
-          ./mc cp output.zip mino/db-cpdb/$DATE
+          ./mc rm -r --force mino/db-cpdb-test/latest
+          ./mc rm -r --force mino/db-cpdb-test/$DATE
+          ./mc cp -r output mino/db-cpdb-test/latest
+          ./mc cp -r output mino/db-cpdb-test/$DATE
+          ./mc cp output.zip mino/db-cpdb-test/latest
+          ./mc cp output.zip mino/db-cpdb-test/$DATE
