@@ -13,7 +13,7 @@ jobs:
     needs: skip
     name: dataloading
     runs-on: self-hosted
-    container: sptkl/cook:latest
+    container: nycplanning/cook:latest
     env:
         RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
         BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
