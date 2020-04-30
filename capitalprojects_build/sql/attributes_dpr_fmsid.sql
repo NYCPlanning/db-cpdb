@@ -1,9 +1,10 @@
 -- Add DPR geometries to attributes table
+UPDATE dpr_capitalprojects
+SET wkb_geometry = NULL
+WHERE lat = 0 or lon = 0;
 
 WITH proj AS(
-SELECT (CASE when lat = 0 then null 
-        else ST_Multi(ST_Union(wkb_geometry)
-        end) as geom,
+SELECT ST_Multi(ST_Union(wkb_geometry) as geom,
        replace(fmsid, ' ', '') as fmsid
 FROM dpr_capitalprojects
 GROUP BY fmsid
