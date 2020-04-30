@@ -5,8 +5,8 @@ then
 fi
 
 docker run --rm\
-    -v $(pwd):/developments_build\
-    -w /developments_build\
+    -v $(pwd)/python:/home/python\
+    -w /home/python\
     -e BUILD_ENGINE=$BUILD_ENGINE\
     sptkl/docker-geosupport:latest bash -c "
       python3 attributes_geom_agencyverified_geocode.py"
