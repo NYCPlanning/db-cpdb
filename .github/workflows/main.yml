@@ -25,17 +25,17 @@ jobs:
         working-directory: capitalprojects_build
         run: ./setup.sh
       
-      - name: 01 dataloading ..
+      - name: 01 dataloading
         working-directory: capitalprojects_build
         shell: bash
         run: ./01_dataloading.sh
       
-      - name: 02 build_attribute_part1 ...
+      - name: 02 build_attribute_part1
         working-directory: capitalprojects_build
         shell: bash
         run: ./02_build_attribute_part1.sh
       
-      - name: 03 geocode_agencyverified ...
+      - name: 03 geocode_agencyverified
         working-directory: capitalprojects_build
         shell: bash
         run: ./03_geocode_agencyverified.sh
