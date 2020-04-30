@@ -22,4 +22,4 @@ rm ACCC4CF8.asc
 curl -O https://dl.min.io/client/mc/release/linux-amd64/mc
 chmod +x mc
 sudo mv ./mc /usr/bin
-mc config host add spaces $AWS_S3_ENDPOINT $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY --api S3v4
+mc config host add mino $MINIO_S3_ENDPOINT $MINIO_ACCESS_KEY_ID $MINIO_SECRET_ACCESS_KEY --api S3v4
