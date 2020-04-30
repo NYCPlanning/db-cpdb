@@ -9,111 +9,57 @@ jobs:
     if: "contains(github.event.head_commit.message, '[build]')"
     steps:
       - run: echo "${{ github.event.head_commit.message }}"
-  _01_dataloading:
+  build:
     needs: skip
-    name: dataloading
     runs-on: self-hosted
-    container: nycplanning/cook:latest
     env:
-        RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
-        BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
-    steps: 
+      RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
+      BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
+      EDM_DATA: ${{ secrets.EDM_DATA }}
+      MINIO_S3_ENDPOINT: ${{ secrets.MINIO_S3_ENDPOINT }}
+      MINIO_ACCESS_KEY_ID: ${{ secrets.MINIO_ACCESS_KEY_ID }}
+      MINIO_SECRET_ACCESS_KEY: ${{ secrets.MINIO_SECRET_ACCESS_KEY }}
+    steps:
       - uses: actions/checkout@v2
-      - name: dataloading
+      - name: install dependencies
         working-directory: capitalprojects_build
-        run: |
-          python3 python/dataloading.py
-      - name: dot_bridges
+        run: ./setup.sh
+      
+      - name: 01 dataloading
         working-directory: capitalprojects_build
-        run: |
-          python3 python/dot_bridges.py
-  _02_building:
-    needs: _01_dataloading
-    name: building part 1
-    runs-on: self-hosted
-    container: mdillon/postgis:latest
-    env:
-        RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
-        BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
-    steps: 
-      - uses: actions/checkout@v2
-      - name: 02_build_attribute_part1
+        shell: bash
+        run: ./01_dataloading.sh
+      
+      - name: 02 build_attribute_part1
         working-directory: capitalprojects_build
+        shell: bash
         run: ./02_build_attribute_part1.sh
-  _03_geocode_agencyverified: 
-    needs: _02_building
-    name: geocode agencyverified
-    runs-on: self-hosted
-    container: sptkl/docker-geosupport:latest
-    env:
-        RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
-        BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
-    steps: 
-      - uses: actions/checkout@v2
-      - name: _03_geocode_agencyverified
-        working-directory: capitalprojects_build/python
-        run: python3 attributes_geom_agencyverified_geocode.py
-  _04_building:
-    needs: _03_geocode_agencyverified
-    name: building part 2
-    runs-on: self-hosted
-    container: mdillon/postgis:latest
-    env:
-        RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
-        BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
-    steps: 
-      - uses: actions/checkout@v2
-      - name: 04_build_attribute_part2
+      
+      - name: 03 geocode_agencyverified
+        working-directory: capitalprojects_build
+        shell: bash
+        run: ./03_geocode_agencyverified.sh
+
+      - name: 04 build_attribute_part2
         working-directory: capitalprojects_build
         run: ./04_build_attribute_part2.sh
-  _05_geocode_maprojid_parkid: 
-    needs: _04_building
-    name: geocode maprojid_parkid
-    runs-on: self-hosted
-    container: sptkl/docker-geosupport:latest
-    env:
-        RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
-        BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
-    steps: 
-      - uses: actions/checkout@v2
-      - name: _03_geocode_agencyverified
-        working-directory: capitalprojects_build/python
-        run: python3 attributes_maprojid_parkid.py
-  _06_building:
-    needs: _05_geocode_maprojid_parkid
-    name: building part 3 + admin bounds + export
-    runs-on: self-hosted
-    container: mdillon/postgis:latest
-    env:
-        RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
-        BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
-        MINIO_S3_ENDPOINT: ${{ secrets.MINIO_S3_ENDPOINT }}
-        MINIO_ACCESS_KEY_ID: ${{ secrets.MINIO_ACCESS_KEY_ID }}
-        MINIO_SECRET_ACCESS_KEY: ${{ secrets.MINIO_SECRET_ACCESS_KEY }}
-    steps: 
-      - uses: actions/checkout@v2
+
+      - name: 05 geocode_maprojid_parkid
+        working-directory: capitalprojects_build
+        run: ./05_geocode_maprojid_parkid.sh
+
       - name: 06 build attribute part3
         working-directory: capitalprojects_build
         run: ./06_build_attribute_part3.sh
+
       - name: 07 adminbounds
         working-directory: capitalprojects_build
         run: ./07_adminbounds.sh
+
       - name: 08 analysis
         working-directory: capitalprojects_build
         run: ./08_analysis.sh
-      - name: export
-        if: "contains(github.event.head_commit.message, '[build]')"
-        working-directory: capitalprojects_build
-        run: |
-          ./10_export.sh
-          zip -r output.zip output
-          curl -O https://dl.min.io/client/mc/release/linux-amd64/mc
-          chmod +x mc
 
-          ./mc config host add mino $MINIO_S3_ENDPOINT $MINIO_ACCESS_KEY_ID $MINIO_SECRET_ACCESS_KEY --api S3v4
-          ./mc rm -r --force mino/db-cpdb/latest
-          ./mc rm -r --force mino/db-cpdb/$DATE
-          ./mc cp -r output mino/db-cpdb/latest
-          ./mc cp -r output mino/db-cpdb/$DATE
-          ./mc cp output.zip mino/db-cpdb/latest
-          ./mc cp output.zip mino/db-cpdb/$DATE
+      - name: export
+        working-directory: capitalprojects_build
+        run: ./10_export.sh
