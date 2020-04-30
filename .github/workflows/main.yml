@@ -22,6 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: install dependencies
+        working-directory: capitalprojects_build
         run: ./setup.sh
       
       - name: 01 dataloading ..
