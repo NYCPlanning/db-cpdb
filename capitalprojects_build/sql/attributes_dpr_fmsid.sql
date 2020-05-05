@@ -4,7 +4,7 @@ SET wkb_geometry = NULL
 WHERE lat = 0 or lon = 0;
 
 WITH proj AS(
-SELECT ST_Multi(ST_Union(wkb_geometry) as geom,
+SELECT ST_Multi(ST_Union(wkb_geometry)) as geom,
        replace(fmsid, ' ', '') as fmsid
 FROM dpr_capitalprojects
 GROUP BY fmsid
