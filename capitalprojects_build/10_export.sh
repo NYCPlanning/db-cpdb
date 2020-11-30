@@ -71,5 +71,3 @@ mc rm -r --force mino/db-cpdb/latest
 mc rm -r --force mino/db-cpdb/$DATE
 mc cp -r output mino/db-cpdb/latest
 mc cp -r output mino/db-cpdb/$DATE
-mc cp output.zip mino/db-cpdb/latest
-mc cp output.zip mino/db-cpdb/$DATE
