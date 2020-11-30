@@ -12,7 +12,8 @@ CREATE TABLE cpdb_projects_spending_byyear AS (
 	i.totalspenddate as spend2017,
 	j.totalspenddate as spend2018,
 	k.totalspenddate as spend2019,
-	l.totalspenddate as spend2020
+	l.totalspenddate as spend2020,
+	m.totalspenddate as spend2021
 	FROM cpdb_projects a
 	LEFT JOIN (
 		SELECT TRIM(LEFT(capital_project,12)) AS maprojid, 
@@ -90,7 +91,14 @@ CREATE TABLE cpdb_projects_spending_byyear AS (
 		FROM capital_spending 
 		WHERE LEFT(issue_date, 4)::double precision = 2020
 		GROUP BY TRIM(LEFT(capital_project,12))
-		) l ON a.maprojid=k.maprojid
+		) l ON a.maprojid=l.maprojid
+	LEFT JOIN (
+		SELECT TRIM(LEFT(capital_project,12)) AS maprojid, 
+		SUM(check_amount::double precision) AS totalspenddate 
+		FROM capital_spending 
+		WHERE LEFT(issue_date, 4)::double precision = 2021
+		GROUP BY TRIM(LEFT(capital_project,12))
+		) m ON a.maprojid=m.maprojid
 	 WHERE b.totalspenddate IS NOT NULL
 	 	OR c.totalspenddate IS NOT NULL
 	 	OR d.totalspenddate IS NOT NULL
@@ -102,4 +110,5 @@ CREATE TABLE cpdb_projects_spending_byyear AS (
 	 	OR j.totalspenddate IS NOT NULL
 		OR k.totalspenddate IS NOT NULL
 		OR l.totalspenddate IS NOT NULL
+		OR m.totalspenddate IS NOT NULL
 	 );
