@@ -92,7 +92,7 @@ df = pd.read_sql("select distinct maprojid from cpdb_projects", con=engine)
 records = df.to_dict("records")
 
 # get data
-with Pool(processes=cpu_count()) as pool:
+with Pool(processes=cpu_count()*3) as pool:
     pool.map(get_records, records, 1000)
 
 # export to recipe engine
