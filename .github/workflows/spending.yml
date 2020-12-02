@@ -12,6 +12,7 @@ jobs:
     scrape:
         needs: skip
         runs-on: self-hosted
+        timeout-minutes: 720
         container: sptkl/cook:latest
         env:
             RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
