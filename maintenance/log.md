@@ -1,8 +1,11 @@
 # Build Logs
 
+## 2020/12/02 -- Molly
++ Kick off second round of build to incorporate latest scrape
+
 ## 2020/11/30 -- Molly
 + Initial build complete
-+ Kicking off scraper
++ Kicking off scraper -- didn't successfully run until 2020/12/02 with increased timeout
 
 ## 2020/04/29 -- Baiyue
 + kicking off a new build
