@@ -2,6 +2,7 @@
 
 ## 2020/12/02 -- Molly
 + Kick off second round of build to incorporate latest scrape
++ Kick off a build -- baiyue
 
 ## 2020/11/30 -- Molly
 + Initial build complete
