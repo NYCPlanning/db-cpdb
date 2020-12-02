@@ -1,4 +1,5 @@
 # db-cpdb
+![capital spending](https://github.com/NYCPlanning/db-cpdb/workflows/capital%20spending/badge.svg) ![CI test](https://github.com/NYCPlanning/db-cpdb/workflows/CI%20test/badge.svg)
 
 ## Instructions: 
 1. Edit `capitalprojects_build/version.env` to include the latest version name. e.g. `fisa_{year}`. Also edit the `sql/projects_spending_byyear.sql` file to reflect the current year. 
