@@ -63,3 +63,7 @@ jobs:
       - name: export
         working-directory: capitalprojects_build
         run: ./10_export.sh
+        
+      - name: Clean up ...
+        if: ${{ always() }}
+        run: sudo rm -rf /home/self-hosted/actions-runner/_work/db-cpdb
