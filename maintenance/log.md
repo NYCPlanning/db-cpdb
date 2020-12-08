@@ -2,6 +2,7 @@
 
 ## 2020/12/08 -- Baiyue
 + Build after re-loading fisa_capitalcommitments
++ Scraping for capital_spending
 
 ## 2020/12/08 -- Molly
 + Build after re-loading census tract data to recipes
