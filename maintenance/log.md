@@ -1,5 +1,8 @@
 # Build Logs
 
+## 2020/12/08 -- Molly
++ Build after re-loading census tract data to recipes
+
 ## 2020/12/02 -- Molly
 + Kick off second round of build to incorporate latest scrape
 + Kick off a build -- baiyue
