@@ -1,5 +1,8 @@
 # Build Logs
 
+## 2020/12/09 -- Baiyue
++ Incorporate a freshly scraped capital_spending table
+
 ## 2020/12/08 -- Baiyue
 + Build after re-loading fisa_capitalcommitments
 + Scraping for capital_spending
