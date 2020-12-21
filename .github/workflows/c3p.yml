@@ -1,0 +1,67 @@
+name: C3P
+
+on:
+  push:
+    branches:
+      - c3p
+jobs:
+  build:
+    if: contains(github.event.head_commit.message, '[c3p]')
+    runs-on: self-hosted
+    env:
+      RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
+      BUILD_ENGINE: ${{ secrets.C3P_ENGINE }}
+      MINIO_S3_ENDPOINT: ${{ secrets.MINIO_S3_ENDPOINT }}
+      MINIO_ACCESS_KEY_ID: ${{ secrets.MINIO_ACCESS_KEY_ID }}
+      MINIO_SECRET_ACCESS_KEY: ${{ secrets.MINIO_SECRET_ACCESS_KEY }}
+    steps:
+      - uses: actions/checkout@v2
+        with: 
+          submodules: true
+
+      - name: install dependencies
+        working-directory: capitalprojects_build
+        run: ./setup.sh
+      
+      - name: 01 dataloading
+        working-directory: capitalprojects_build
+        shell: bash
+        run: ./01_dataloading.sh
+      
+      - name: 02 build_attribute_part1
+        working-directory: capitalprojects_build
+        shell: bash
+        run: ./02_build_attribute_part1.sh
+      
+      - name: 03 geocode_agencyverified
+        working-directory: capitalprojects_build
+        shell: bash
+        run: ./03_geocode_agencyverified.sh
+
+      - name: 04 build_attribute_part2
+        working-directory: capitalprojects_build
+        run: ./04_build_attribute_part2.sh
+
+      - name: 05 geocode_maprojid_parkid
+        working-directory: capitalprojects_build
+        run: ./05_geocode_maprojid_parkid.sh
+
+      - name: 06 build attribute part3
+        working-directory: capitalprojects_build
+        run: ./06_build_attribute_part3.sh
+
+      - name: 07 adminbounds
+        working-directory: capitalprojects_build
+        run: ./07_adminbounds.sh
+
+      - name: 08 analysis
+        working-directory: capitalprojects_build
+        run: ./08_analysis.sh
+
+      - name: export
+        working-directory: capitalprojects_build
+        run: ./10_export.sh
+        
+      - name: Clean up ...
+        if: ${{ always() }}
+        run: sudo rm -rf /home/self-hosted/actions-runner/_work/db-cpdb

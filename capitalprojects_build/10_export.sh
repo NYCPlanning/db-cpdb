@@ -67,7 +67,7 @@ psql $BUILD_ENGINE -c "\copy (
 
 zip -r output.zip output
 
-mc rm -r --force mino/db-cpdb/latest
-mc rm -r --force mino/db-cpdb/$DATE
-mc cp -r output mino/db-cpdb/latest
-mc cp -r output mino/db-cpdb/$DATE
+mc rm -r --force mino/db-cpdb-c3p/latest
+mc rm -r --force mino/db-cpdb-c3p/$DATE
+mc cp -r output mino/db-cpdb-c3p/latest
+mc cp -r output mino/db-cpdb-c3p/$DATE
