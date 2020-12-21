@@ -18,7 +18,14 @@ jobs:
       - uses: actions/checkout@v2
         with: 
           submodules: true
+          ssh-key: ${{ secrets.SSH_KEY }}
+          persist-credentials: true
 
+      - name: checkout submodule
+        run: |
+          git submodule init
+          git submodule update
+          
       - name: install dependencies
         working-directory: capitalprojects_build
         run: ./setup.sh
