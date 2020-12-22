@@ -2,16 +2,16 @@
 
 WITH proj AS(
 SELECT  ST_Multi(ST_Union(wkb_geometry)) as geom,
-       fmsid
+       pjid
 FROM edc_capitalprojects
-GROUP BY fmsid
+GROUP BY pjid
 )
 UPDATE cpdb_dcpattributes SET geom = proj.geom,
        dataname = 'edc_capitalprojects',
        datasource = 'edc',
        geomsource = 'edc'
 FROM proj
-WHERE cpdb_dcpattributes.maprojid = proj.fmsid;
+WHERE cpdb_dcpattributes.maprojid = replace(proj.pjid, ' ','');
 
 
 -- - ferry
