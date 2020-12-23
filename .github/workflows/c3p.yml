@@ -24,7 +24,7 @@ jobs:
       - name: checkout submodule
         run: |
           git submodule init
-          git submodule update
+          git submodule update --remote --recursive
           
       - name: install dependencies
         working-directory: capitalprojects_build
