@@ -21,6 +21,11 @@ DATE=$(date "+%Y-%m-%d")
 source ./url_parse.sh $BUILD_ENGINE
 
 # cpdb_dcpattributes
+mkdir -p output
+
+psql $BUILD_ENGINE -c "\copy (
+    SELECT * FROM cpdb_dcpattributes) TO stdout DELIMITER ',' CSV HEADER;" > output/cpdb_adminbounds.csv
+
 mkdir -p output/cpdb_dcpattributes_pts && 
     (cd output/cpdb_dcpattributes_pts
         pgsql2shp -u $BUILD_USER -h $BUILD_HOST -p $BUILD_PORT -P $BUILD_PWD -f cpdb_dcpattributes_pts $BUILD_DB \
