@@ -1,6 +1,8 @@
 -- Add DPR geometries to attributes table
 UPDATE dpr_capitalprojects
-SET wkb_geometry = NULL
+SET wkb_geometry = NULL,
+    lat = NULL,
+    lon = NULL
 WHERE lat = 0 or lon = 0;
 
 WITH proj AS(
