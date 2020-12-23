@@ -24,7 +24,7 @@ source ./url_parse.sh $BUILD_ENGINE
 mkdir -p output
 
 psql $BUILD_ENGINE -c "\copy (
-    SELECT * FROM cpdb_dcpattributes) TO stdout DELIMITER ',' CSV HEADER;" > output/cpdb_adminbounds.csv
+    SELECT * FROM cpdb_dcpattributes) TO stdout DELIMITER ',' CSV HEADER;" > output/cpdb_dcpattributes.csv
 
 mkdir -p output/cpdb_dcpattributes_pts && 
     (cd output/cpdb_dcpattributes_pts
