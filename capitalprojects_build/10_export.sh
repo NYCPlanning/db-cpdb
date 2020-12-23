@@ -10,6 +10,14 @@ fi
 
 DATE=$(date "+%Y-%m-%d")
 
+# Create the other c3p flags
+# and combine to large table
+(
+    cd db-cpdb-c3p
+    ./_runner.sh flags
+    ./_runner.sh combine
+)
+
 source ./url_parse.sh $BUILD_ENGINE
 
 # cpdb_dcpattributes
