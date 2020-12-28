@@ -81,7 +81,7 @@ psql $BUILD_ENGINE -f sql/attributes_agencyverified_geoms.sql
 
 # Create 2020 manual geometry table
 echo 'Creating 2020 manual geometry table'
-cat 'data/CPDB_Dec20_UpdateFile_EDCgeoms.csv' |
+cat 'data/edcgeoms_2020-12-28.csv' |
 psql $BUILD_ENGINE -c "
     DROP TABLE IF EXISTS manual_geoms_2020;
     CREATE TABLE manual_geoms_2020 (
