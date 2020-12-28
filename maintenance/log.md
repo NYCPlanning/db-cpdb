@@ -2,6 +2,7 @@
 
 ## 2020/12/28 -- Molly
 + Data for edc_capitalprojects is in corrected projection in recipes
++ Data for dot_project_intersections is in corrected projection in recipes
 
 ## 2020/12/23 -- Molly
 + Addresses issues #1, #4, #14, #15
