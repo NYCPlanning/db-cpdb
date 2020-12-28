@@ -78,3 +78,22 @@ psql $BUILD_ENGINE -f sql/attributes_ddc.sql
 # create geoms for agency mapped projects
 echo 'Creating geometries for agency verified data - Summer 2017'
 psql $BUILD_ENGINE -f sql/attributes_agencyverified_geoms.sql
+
+# Create 2020 manual geometry table
+echo 'Creating 2020 manual geometry table'
+cat 'data/CPDB_Dec20_UpdateFile_EDCgeoms.csv' |
+psql $BUILD_ENGINE -c "
+    DROP TABLE IF EXISTS manual_geoms_2020;
+    CREATE TABLE manual_geoms_2020 (
+        maprojid text, 
+        geom geometry,
+        project_discription text,
+        footprint_project_id,
+        footprint_project_geomsource text);
+    COPY manual_geoms_2020 FROM STDIN DELIMITER ',' CSV HEADER;"
+
+psql $BUILD_ENGINE -c "
+    UPDATE cpdb_dcpattributes a 
+    SET geomsource = b.footprint_project_geomsource, geom = b.geom 
+    FROM manual_geoms_2020 as b 
+    WHERE a.maprojid = b.maprojid;" 
