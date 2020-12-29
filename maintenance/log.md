@@ -1,5 +1,8 @@
 # Build Logs
 
+## 2020/12/29 -- Molly
++ Rebuild with 2020 manual geoms -- PR #22
+
 ## 2020/12/28 -- Molly
 + Data for edc_capitalprojects is in corrected projection in recipes
 + Data for dot_project_intersections is in corrected projection in recipes
