@@ -3,6 +3,7 @@
 ## 2020/12/29 -- Molly
 + Rebuild with 2020 manual geoms -- PR #22
 + Run c3p
++ Rerun c3p after merge of https://github.com/NYCPlanning/db-cpdb-c3p/pull/46
 
 ## 2020/12/28 -- Molly
 + Data for edc_capitalprojects is in corrected projection in recipes
