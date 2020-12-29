@@ -28,7 +28,7 @@ psql $BUILD_ENGINE -c "
     DROP TABLE IF EXISTS sprints;
     CREATE TABLE sprints (
         maprojid text, 
-        bbl text , 
+        bbl text, 
         bin text,
         geomsource text, 
         geom geometry)"
@@ -63,7 +63,7 @@ psql $BUILD_ENGINE -c "
         maprojid text, 
         geom geometry,
         project_discription text,
-        footprint_project_id,
+        footprint_project_id text,
         footprint_project_geomsource text);
     COPY manual_geoms_2020 FROM STDIN DELIMITER ',' CSV HEADER;"
 
