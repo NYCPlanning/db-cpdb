@@ -2,6 +2,9 @@
 
 ## 2020/12/29 -- Molly
 + Rebuild with 2020 manual geoms -- PR #22
++ Run c3p
++ Rerun c3p after merge of https://github.com/NYCPlanning/db-cpdb-c3p/pull/46
++ Rerun with numeric hierarchy
 
 ## 2020/12/28 -- Molly
 + Data for edc_capitalprojects is in corrected projection in recipes
@@ -10,6 +13,7 @@
 ## 2020/12/23 -- Molly
 + Addresses issues #1, #4, #14, #15
 + Data for dcp_capitalprojects is fixed in recipes
++ Test c3p
 
 ## 2020/12/09 -- Baiyue
 + Incorporate a freshly scraped capital_spending table

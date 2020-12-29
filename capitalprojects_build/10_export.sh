@@ -10,9 +10,22 @@ fi
 
 DATE=$(date "+%Y-%m-%d")
 
+# Create the other c3p flags
+# and combine to large table
+(
+    cd db-cpdb-c3p
+    ./_runner.sh flags
+    ./_runner.sh combine
+)
+
 source ./url_parse.sh $BUILD_ENGINE
 
 # cpdb_dcpattributes
+mkdir -p output
+
+psql $BUILD_ENGINE -c "\copy (
+    SELECT * FROM cpdb_dcpattributes) TO stdout DELIMITER ',' CSV HEADER;" > output/cpdb_dcpattributes.csv
+
 mkdir -p output/cpdb_dcpattributes_pts && 
     (cd output/cpdb_dcpattributes_pts
         pgsql2shp -u $BUILD_USER -h $BUILD_HOST -p $BUILD_PORT -P $BUILD_PWD -f cpdb_dcpattributes_pts $BUILD_DB \
@@ -67,7 +80,7 @@ psql $BUILD_ENGINE -c "\copy (
 
 zip -r output.zip output
 
-mc rm -r --force mino/db-cpdb/latest
-mc rm -r --force mino/db-cpdb/$DATE
-mc cp -r output mino/db-cpdb/latest
-mc cp -r output mino/db-cpdb/$DATE
+mc rm -r --force mino/db-cpdb-c3p/latest
+mc rm -r --force mino/db-cpdb-c3p/$DATE
+mc cp -r output mino/db-cpdb-c3p/latest
+mc cp -r output mino/db-cpdb-c3p/$DATE
