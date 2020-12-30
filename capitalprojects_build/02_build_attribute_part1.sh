@@ -41,7 +41,8 @@ psql $BUILD_ENGINE -c "
     UPDATE cpdb_dcpattributes a 
     SET geomsource = b.geomsource, geom = b.geom 
     FROM sprints as b 
-    WHERE a.maprojid = b.maprojid;" 
+    WHERE a.maprojid = b.maprojid
+    AND b.geom IS NOT NULL;" 
 
 # These manual geometries may overwrite old sprints. That's good.
 psql $BUILD_ENGINE -c "
@@ -50,6 +51,7 @@ psql $BUILD_ENGINE -c "
           geom = ST_SetSRID(ST_GeomFromText(ST_AsText(b.geom)), 4326)
       FROM dcp_json b
       WHERE b.maprojid = a.maprojid
+      AND b.geom IS NOT NULL;
       "
 echo 'Loading geometries from id->bin->footprint mapping'
 psql $BUILD_ENGINE -f sql/geom_from_id_bin_map.sql
@@ -71,7 +73,8 @@ psql $BUILD_ENGINE -c "
     UPDATE cpdb_dcpattributes a 
     SET geomsource = b.footprint_project_geomsource, geom = b.geom 
     FROM manual_geoms_2020 as b 
-    WHERE a.maprojid = b.maprojid;" 
+    WHERE a.maprojid = b.maprojid
+    AND b.geom IS NOT NULL;" 
 
 # agency geometries
 # These should not be overwritten unless by ddc so ddc is last.
