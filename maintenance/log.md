@@ -1,6 +1,9 @@
 # Build Logs
 
 ## 2020/12/29 -- Molly
++ Rerun c3p
+
+## 2020/12/29 -- Molly
 + Rebuild with 2020 manual geoms -- PR #22
 + Run c3p
 + Rerun c3p after merge of https://github.com/NYCPlanning/db-cpdb-c3p/pull/46
