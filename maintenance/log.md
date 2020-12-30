@@ -1,7 +1,7 @@
 # Build Logs
 
 ## 2020/12/29 -- Molly
-+ Rerun c3p
++ Rerun c3p 
 
 ## 2020/12/29 -- Molly
 + Rebuild with 2020 manual geoms -- PR #22
