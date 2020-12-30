@@ -16,6 +16,7 @@ DATE=$(date "+%Y-%m-%d")
     cd db-cpdb-c3p
     ./_runner.sh flags
     ./_runner.sh combine
+    ./_runner.sh aggregate
 )
 
 source ./url_parse.sh $BUILD_ENGINE
@@ -77,6 +78,13 @@ psql $BUILD_ENGINE -v ccp_v=$ccp_v -f sql/projects_spending_byyear.sql
 psql $BUILD_ENGINE -c "\copy (
     SELECT * FROM cpdb_projects_spending_byyear) TO stdout DELIMITER ',' CSV HEADER;" \
         > output/cpdb_projects_spending_byyear.csv
+
+# Output aggregate tables
+psql $BUILD_ENGINE -c "\copy (
+    SELECT * FROM projects_by_communitydist_c3p) TO stdout DELIMITER ',' CSV HEADER;" > output/projects_by_communitydist_c3p.csv
+
+psql $BUILD_ENGINE -c "\copy (
+    SELECT * FROM projects_by_councildist_c3p) TO stdout DELIMITER ',' CSV HEADER;" > output/projects_by_councildist_c3p.csv
 
 zip -r output.zip output
 
