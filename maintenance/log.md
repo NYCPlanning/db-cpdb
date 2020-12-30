@@ -2,6 +2,7 @@
 
 ## 2020/12/30 -- Molly
 + Rebuild
++ Rebuild to troubleshoot cases with non-NULL geomsource and NULL geoms
 
 ## 2020/12/29 -- Molly
 + Rebuild with 2020 manual geoms -- PR #22
