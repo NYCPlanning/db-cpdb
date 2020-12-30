@@ -1,6 +1,7 @@
 # Build Logs
 
 ## 2020/12/30 -- Molly
++ Rebuild
 + Rerun c3p
 + Rerun after moving creation of c3p_main table
 + Rerun after moving c3p to step 6
