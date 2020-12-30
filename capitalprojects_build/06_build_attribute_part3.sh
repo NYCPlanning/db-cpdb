@@ -7,6 +7,17 @@ fi
 echo 'Creating maprojid --> parkid relational table'
 psql $BUILD_ENGINE -f sql/attributes_maprojid_parkid.sql
 
+# Add c3p geometries
+(
+    cd db-cpdb-c3p
+    # build c3p inputs in python
+    ./_runner.sh build
+    # loading new geometry table
+    ./_runner.sh create
+    # creating new mapped flag
+    ./_runner.sh flag_geo
+)
+
 ###########################
 # final geometry clean-up #
 ###########################
