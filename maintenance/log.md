@@ -3,6 +3,7 @@
 ## 2020/12/30 -- Molly
 + Rerun c3p
 + Rerun after moving creation of c3p_main table
++ Rerun after moving c3p to step 6
 
 ## 2020/12/29 -- Molly
 + Rebuild with 2020 manual geoms -- PR #22
