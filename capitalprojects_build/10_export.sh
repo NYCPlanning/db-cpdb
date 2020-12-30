@@ -10,12 +10,11 @@ fi
 
 DATE=$(date "+%Y-%m-%d")
 
-# Create the other c3p flags
-# and combine to large table
+# Create the other c3p flags by comparing with April version
+# Combine into large table, then perform aggregation
 (
     cd db-cpdb-c3p
-    ./_runner.sh flags
-    ./_runner.sh combine
+    ./_runner.sh compare
     ./_runner.sh aggregate
 )
 

@@ -93,17 +93,6 @@ psql $BUILD_ENGINE -f sql/attributes_edc.sql
 echo 'Adding DDC geometries'
 psql $BUILD_ENGINE -f sql/attributes_ddc.sql
 
-# c3p
-(
-    cd db-cpdb-c3p
-    # build c3p inputs in python
-    ./_runner.sh build
-    # loading new geometry table
-    ./_runner.sh create
-    # creating new mapped flag
-    ./_runner.sh flag_geo
-)
-
 # agency verified Summer 2017
 # create geoms for agency mapped projects
 echo 'Creating geometries for agency verified data - Summer 2017'
