@@ -96,6 +96,8 @@ psql $BUILD_ENGINE -f sql/attributes_ddc.sql
 # c3p
 (
     cd db-cpdb-c3p
+    # build c3p inputs in python
+    ./_runner.sh build
     # loading new geometry table
     ./_runner.sh create
     # creating new mapped flag
