@@ -57,27 +57,30 @@ echo 'Loading geometries from id->bin->footprint mapping'
 psql $BUILD_ENGINE -f sql/geom_from_id_bin_map.sql
 
 # Create 2020 manual geometry table
-echo 'Creating 2020 manual geometry table'
-cat 'data/edcgeoms_2020-12-28.csv' |
-psql $BUILD_ENGINE -c "
-    DROP TABLE IF EXISTS manual_geoms_2020;
-    CREATE TABLE manual_geoms_2020 (
-        maprojid text, 
-        geom geometry,
-        project_discription text,
-        footprint_project_id text,
-        footprint_project_geomsource text);
-    COPY manual_geoms_2020 FROM STDIN DELIMITER ',' CSV HEADER;
-    UPDATE manual_geoms_2020 a
-        SET footprint_project_geomsource = 'EP 2020'
-        WHERE a.footprint_project_geomsource ~* 'AD Sprint';"
+# The manual geoms from 2020 will not get incorporated until they are fixed.
 
-psql $BUILD_ENGINE -c "
-    UPDATE cpdb_dcpattributes a 
-    SET geomsource = b.footprint_project_geomsource, geom = b.geom 
-    FROM manual_geoms_2020 as b 
-    WHERE a.maprojid = b.maprojid
-    AND b.geom IS NOT NULL;" 
+#echo 'Creating 2020 manual geometry table'
+#cat 'data/edcgeoms_2020-12-28.csv' |
+#psql $BUILD_ENGINE -c "
+#    DROP TABLE IF EXISTS manual_geoms_2020;
+#    CREATE TABLE manual_geoms_2020 (
+#        maprojid text, 
+#        geom geometry,
+#        project_discription text,
+#        footprint_project_id text,
+#        footprint_project_geomsource text);
+#    COPY manual_geoms_2020 FROM STDIN DELIMITER ',' CSV HEADER;
+#    UPDATE manual_geoms_2020 a
+#        SET footprint_project_geomsource = 'EP 2020'
+#        WHERE a.footprint_project_geomsource ~* 'AD Sprint';"
+#
+#psql $BUILD_ENGINE -c "
+#    UPDATE cpdb_dcpattributes a 
+#    SET geomsource = b.footprint_project_geomsource, geom = b.geom 
+#    FROM manual_geoms_2020 as b 
+#    WHERE a.maprojid = b.maprojid
+#    AND b.geom IS NOT NULL;" 
+
 
 # agency geometries
 # These should not be overwritten unless by ddc so ddc is last.
