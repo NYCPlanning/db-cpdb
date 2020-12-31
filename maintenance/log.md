@@ -4,6 +4,7 @@
 + Rerun c3p after merge of: https://github.com/NYCPlanning/db-cpdb-c3p/pull/71, https://github.com/NYCPlanning/db-cpdb/pull/39, https://github.com/NYCPlanning/db-cpdb/pull/40
 + Rerun c3p after merge of: https://github.com/NYCPlanning/db-cpdb/pull/42
 + Rerun c3p after merge of: https://github.com/NYCPlanning/db-cpdb/pull/46
++ Remove 2020 manual geoms
 
 ## 2020/12/30 -- Molly
 + Rebuild
