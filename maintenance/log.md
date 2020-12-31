@@ -8,6 +8,7 @@
 ## 2020/12/30 -- Molly
 + Rebuild
 + Rebuild to troubleshoot cases with non-NULL geomsource and NULL geoms
++ Rebuild without bad geoms step and correcting attributes for zero coord records
 + Rerun c3p
 + Rerun after moving creation of c3p_main table
 + Rerun after moving c3p to step 6
