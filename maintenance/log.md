@@ -1,9 +1,12 @@
 # Build Logs
 
+## 2020/12/31 -- Molly
++ Rebuild without bad geoms step and correcting attributes for zero coord records
++ Remove 2020 manual geoms
+
 ## 2020/12/30 -- Molly
 + Rebuild
 + Rebuild to troubleshoot cases with non-NULL geomsource and NULL geoms
-+ Rebuild without bad geoms step and correcting attributes for zero coord records
 
 ## 2020/12/29 -- Molly
 + Rebuild with 2020 manual geoms -- PR #22
