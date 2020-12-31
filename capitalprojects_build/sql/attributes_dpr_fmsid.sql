@@ -18,4 +18,5 @@ SET geom = proj.geom,
     datasource = 'dpr',
     geomsource = 'dpr'
 FROM proj
-WHERE cpdb_dcpattributes.maprojid = proj.fmsid;
+WHERE cpdb_dcpattributes.maprojid = proj.fmsid
+AND proj.geom IS NOT NULL;
