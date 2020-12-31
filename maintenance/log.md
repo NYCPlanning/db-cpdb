@@ -1,5 +1,8 @@
 # Build Logs
 
+## 2020/12/31 -- Molly
++ Rerun c3p after merge of: https://github.com/NYCPlanning/db-cpdb-c3p/pull/71, https://github.com/NYCPlanning/db-cpdb/pull/39, https://github.com/NYCPlanning/db-cpdb/pull/40
+
 ## 2020/12/30 -- Molly
 + Rebuild
 + Rebuild to troubleshoot cases with non-NULL geomsource and NULL geoms
