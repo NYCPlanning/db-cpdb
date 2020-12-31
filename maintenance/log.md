@@ -1,12 +1,25 @@
 # Build Logs
 
+## 2020/12/31 -- Molly
++ Rerun c3p after merge of: https://github.com/NYCPlanning/db-cpdb-c3p/pull/71, https://github.com/NYCPlanning/db-cpdb/pull/39, https://github.com/NYCPlanning/db-cpdb/pull/40
++ Rerun c3p after merge of: https://github.com/NYCPlanning/db-cpdb/pull/42
++ Rerun c3p after merge of: https://github.com/NYCPlanning/db-cpdb/pull/46
+
 ## 2020/12/30 -- Molly
 + Rebuild
 + Rebuild to troubleshoot cases with non-NULL geomsource and NULL geoms
 + Rebuild without bad geoms step and correcting attributes for zero coord records
++ Rerun c3p
++ Rerun after moving creation of c3p_main table
++ Rerun after moving c3p to step 6
++ Rerun after merge of https://github.com/NYCPlanning/db-cpdb-c3p/pull/65/files
++ Rerun after merge of https://github.com/NYCPlanning/db-cpdb-c3p/pull/67
 
 ## 2020/12/29 -- Molly
 + Rebuild with 2020 manual geoms -- PR #22
++ Run c3p
++ Rerun c3p after merge of https://github.com/NYCPlanning/db-cpdb-c3p/pull/46
++ Rerun with numeric hierarchy
 
 ## 2020/12/28 -- Molly
 + Data for edc_capitalprojects is in corrected projection in recipes
@@ -15,6 +28,7 @@
 ## 2020/12/23 -- Molly
 + Addresses issues #1, #4, #14, #15
 + Data for dcp_capitalprojects is fixed in recipes
++ Test c3p
 
 ## 2020/12/09 -- Baiyue
 + Incorporate a freshly scraped capital_spending table
