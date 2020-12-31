@@ -1,0 +1,3 @@
+[submodule "capitalprojects_build/db-cpdb-c3p"]
+	path = capitalprojects_build/db-cpdb-c3p
+	url = git@github.com:NYCPlanning/db-cpdb-c3p.git
