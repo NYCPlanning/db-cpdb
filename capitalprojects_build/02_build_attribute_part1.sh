@@ -67,7 +67,10 @@ psql $BUILD_ENGINE -c "
         project_discription text,
         footprint_project_id text,
         footprint_project_geomsource text);
-    COPY manual_geoms_2020 FROM STDIN DELIMITER ',' CSV HEADER;"
+    COPY manual_geoms_2020 FROM STDIN DELIMITER ',' CSV HEADER;
+    UPDATE manual_geoms_2020 a
+        SET footprint_project_geomsource = 'EP 2020'
+        WHERE a.footprint_project_geomsource ~* 'AD Sprint';"
 
 psql $BUILD_ENGINE -c "
     UPDATE cpdb_dcpattributes a 
