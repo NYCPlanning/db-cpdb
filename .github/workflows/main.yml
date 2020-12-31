@@ -68,4 +68,3 @@ jobs:
         if: ${{ always() }}
         run: |
           sudo rm -rf /home/self-hosted/actions-runner/_work/db-cpdb
-          sudo rm -rf /home/cpdb/actions-runner/_work/db-cpdb
