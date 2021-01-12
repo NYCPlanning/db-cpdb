@@ -2,6 +2,7 @@
 
 ## 2021/01/12 -- Molly
 + Rebuild with bad geoms step
++ Try again with modified cleanup step
 
 ## 2020/12/31 -- Molly
 + Rebuild without bad geoms step and correcting attributes for zero coord records
