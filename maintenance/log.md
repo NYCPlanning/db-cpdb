@@ -1,5 +1,8 @@
 # Build Logs
 
+## 2021/01/12 -- Molly
++ Rebuild with bad geoms step
+
 ## 2020/12/31 -- Molly
 + Rebuild without bad geoms step and correcting attributes for zero coord records
 + Remove 2020 manual geoms
