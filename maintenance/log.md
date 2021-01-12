@@ -1,5 +1,8 @@
 # Build Logs
 
+## 2021/01/12 -- Molly
++ Reorder manual geom fields
+
 ## 2020/12/31 -- Molly
 + Rerun c3p after merge of: https://github.com/NYCPlanning/db-cpdb-c3p/pull/71, https://github.com/NYCPlanning/db-cpdb/pull/39, https://github.com/NYCPlanning/db-cpdb/pull/40
 + Rerun c3p after merge of: https://github.com/NYCPlanning/db-cpdb/pull/42
