@@ -20,6 +20,7 @@ jobs:
       MINIO_ACCESS_KEY_ID: ${{ secrets.MINIO_ACCESS_KEY_ID }}
       MINIO_SECRET_ACCESS_KEY: ${{ secrets.MINIO_SECRET_ACCESS_KEY }}
     steps:
+      - uses: AutoModality/action-clean@v1
       - uses: actions/checkout@v2
       - name: install dependencies
         working-directory: capitalprojects_build
@@ -64,8 +65,3 @@ jobs:
         working-directory: capitalprojects_build
         run: ./10_export.sh
         
-      - name: Clean up ...
-        if: ${{ always() }}
-        run: |
-          sudo rm -rf /home/self-hosted/actions-runner/_work/db-cpdb
-          sudo rm -rf /home/cpdb/actions-runner/_work/db-cpdb/
