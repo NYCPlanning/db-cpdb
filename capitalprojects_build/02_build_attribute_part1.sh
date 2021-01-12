@@ -64,11 +64,11 @@ psql $BUILD_ENGINE -c "
     DROP TABLE IF EXISTS manual_geoms_2020;
     CREATE TABLE manual_geoms_2020 (
         cartoid text, 
-        maprojid text, 
-        geom geometry,
+        maprojid text,
         project_discription text,
         footprint_project_id text,
-        footprint_project_geomsource text);
+        footprint_project_geomsource text,
+        geom geometry);
     COPY manual_geoms_2020 FROM STDIN DELIMITER ',' CSV HEADER;
     UPDATE manual_geoms_2020 a
         SET footprint_project_geomsource = 'EP 2020'
