@@ -1,5 +1,8 @@
 # Build Logs
 
+## 2021/01/13 -- Molly
++ Set SRID for manual geometries
+
 ## 2021/01/12 -- Molly
 + Rebuild with bad geoms step
 + Try again with modified cleanup step
