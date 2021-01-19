@@ -1,5 +1,8 @@
 # Build Logs
 
+## 2021/01/19 -- Molly
++ Rebuild with updated FISA data (fisa_capitalcommitments."2021/01/19")
+
 ## 2021/01/13 -- Molly
 + Set SRID for manual geometries
 
