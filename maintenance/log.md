@@ -2,6 +2,7 @@
 
 ## 2021/01/19 -- Molly
 + Rebuild with updated FISA data (fisa_capitalcommitments."2021/01/19")
++ Scraping for capital_spending
 
 ## 2021/01/13 -- Molly
 + Set SRID for manual geometries
