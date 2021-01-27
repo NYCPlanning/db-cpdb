@@ -1,5 +1,8 @@
 # Build Logs
 
+## 2021/01/27 -- Molly
++ Rebuild with updated FISA data (fisa_capitalcommitments."2021/01/26")
+
 ## 2021/01/19 -- Molly
 + Rebuild with updated FISA data (fisa_capitalcommitments."2021/01/19")
 + Scraping for capital_spending
