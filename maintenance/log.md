@@ -3,6 +3,7 @@
 ## 2021/01/29 -- Molly
 + Rebuild using FISA and scraped data from 2021/01/27
 + New data for ddc and edc
++ Rebuild after fixing edc data (data previously loaded was meant to get appended to 2020/12/28 version)
 
 ## 2021/01/27 -- Molly
 + Rebuild with updated FISA data (fisa_capitalcommitments."2021/01/26")
