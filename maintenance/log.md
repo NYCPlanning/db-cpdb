@@ -1,5 +1,8 @@
 # Build Logs
 
+## 2021/02/03 -- Molly
++ Running c3p after sign-off of 2021/01/29 CPDB build
+
 ## 2021/01/13 -- Molly
 + Set SRID for manual geometries
 
