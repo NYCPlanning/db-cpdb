@@ -1,0 +1,71 @@
+name: Doctl Test
+
+on:
+  repository_dispatch:
+    types: [test-doctl]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
+      BUILD_ENGINE: ${{ secrets.C3P_ENGINE }}
+      MINIO_S3_ENDPOINT: ${{ secrets.MINIO_S3_ENDPOINT }}
+      MINIO_ACCESS_KEY_ID: ${{ secrets.MINIO_ACCESS_KEY_ID }}
+      MINIO_SECRET_ACCESS_KEY: ${{ secrets.MINIO_SECRET_ACCESS_KEY }}
+    steps:
+      - uses: actions/checkout@v2
+        with: 
+          submodules: true
+          ssh-key: ${{ secrets.SSH_KEY }}
+          persist-credentials: true
+          
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DO_PAT }}
+
+      - name: Install other dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y curl zip
+
+          sudo tee /etc/apt/sources.list.d/pgdg.list <<END
+          deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main
+          END
+
+          # get the signing key and import it
+          curl -O https://www.postgresql.org/media/keys/ACCC4CF8.asc
+          sudo apt-key add ACCC4CF8.asc
+          sudo apt update
+          sudo apt install -y postgresql-client-11 gdal-bin
+          sudo apt autoremove
+
+      - name: Add IP to firewall
+        run: |
+          echo "IP=$(hostname -I | awk '{print $1}')" >> $GITHUB_ENV
+          echo "DO_FIREWALL_ID=$(doctl compute firewall ls -o json | jq -r '.[] | select(.name == "edm-firewall") | .id')" >> $GITHUB_ENV
+          doctl compute firewall add-rules $DO_FIREWALL_ID --inbound-rules "protocol:tcp,ports:0,address:$IP"
+          
+      - name: run things
+        run: | 
+        psql $BUILD_ENGINE -c "
+            DROP TABLE IF EXISTS doctl_test;
+            CREATE TABLE doctl_test (
+                bbl text,
+                field text,
+                old_value text,
+                new_value text,
+            );
+
+        psql $RECIPE_ENGINE -c "
+            DROP TABLE IF EXISTS test."doctl_test";
+            CREATE TABLE test (
+                bbl text,
+                field text,
+                old_value text,
+                new_value text,
+            );
+
+      - name: Remove IP from firewall
+        run: |
+          doctl compute firewall remove-rules $DO_FIREWALL_ID --inbound-rules "protocol:tcp,ports:80,address:$IP"
