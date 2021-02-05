@@ -43,7 +43,7 @@ jobs:
       - name: Add IP to firewall
         run: |
           echo "IP=$(ip -o -f inet addr show | awk '/scope global/ {print $4}')" >> $GITHUB_ENV
-          echo "DO_FIREWALL_ID=$(doctl compute firewall ls -o json | jq -r '.[] | select(.name == "edm-firewall") | .id')" >> $GITHUB_ENV
+          echo "DO_FIREWALL_ID=$(doctl compute firewall ls -o json | jq -r '.[] | select(.name == \"edm-firewall\") | .id')" >> $GITHUB_ENV
           doctl compute firewall add-rules $DO_FIREWALL_ID --inbound-rules "protocol:tcp,ports:all,address:$IP"
           
       - name: run things
