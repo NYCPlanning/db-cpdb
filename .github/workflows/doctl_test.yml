@@ -48,24 +48,22 @@ jobs:
           
       - name: run things
         run: | 
-        psql $BUILD_ENGINE -c "
-            DROP TABLE IF EXISTS doctl_test;
-            CREATE TABLE doctl_test (
+          psql $BUILD_ENGINE -c "DROP TABLE IF EXISTS doctl_test;"
+          psql $BUIL_ENGINE -c "CREATE TABLE doctl_test (
                 bbl text,
                 field text,
                 old_value text,
                 new_value text,
-            );
+            );"
 
-        psql $RECIPE_ENGINE -c "
-            DROP TABLE IF EXISTS test."doctl_test";
-            CREATE TABLE test (
+          psql $RECIPE_ENGINE -c "DROP TABLE IF EXISTS test.doctl_test;"
+          psql $RECIPE_ENGINE -c "CREATE TABLE test (
                 bbl text,
                 field text,
                 old_value text,
                 new_value text,
-            );
+            );"
 
       - name: Remove IP from firewall
         run: |
-          doctl compute firewall remove-rules $DO_FIREWALL_ID --inbound-rules "protocol:tcp,ports:80,address:$IP"
+          doctl compute firewall remove-rules $DO_FIREWALL_ID --inbound-rules "protocol:tcp,ports:0,address:$IP"
