@@ -21,7 +21,7 @@ jobs:
       - name: Compute info and add to firewall
         id: firewall
         run: |
-          IP=$(hostname -I | awk '{print $1}')
+          IP=$(curl https://api.ipify.org)
           FIREWALL=$(doctl compute firewall ls -o json | jq -r '.[] | select(.name == "edm-firewall") | .id')
           RULE="protocol:tcp,ports:5432-5433,address:$IP"
           doctl compute firewall add-rules $FIREWALL --inbound-rules $RULE
