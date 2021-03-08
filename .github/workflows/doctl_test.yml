@@ -37,6 +37,7 @@ jobs:
           psql $BUILD_ENGINE -c "SELECT 'this is working' as work;"
 
       - name: Remove IP from firewall
+        if: always()
         env:
           FIREWALL: ${{ steps.firewall.outputs.firewall }}
           RULE: ${{ steps.firewall.outputs.rule }}
