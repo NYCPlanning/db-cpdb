@@ -1,11 +1,11 @@
 name: Doctl Test
 
 on:
-  repository_dispatch:
-    types: [test-doctl]
+  workflow_dispatch:
+  
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
       BUILD_ENGINE: ${{ secrets.C3P_ENGINE }}
@@ -13,38 +13,21 @@ jobs:
       MINIO_ACCESS_KEY_ID: ${{ secrets.MINIO_ACCESS_KEY_ID }}
       MINIO_SECRET_ACCESS_KEY: ${{ secrets.MINIO_SECRET_ACCESS_KEY }}
     steps:
-      - uses: actions/checkout@v2
-        with: 
-          submodules: true
-          ssh-key: ${{ secrets.SSH_KEY }}
-          persist-credentials: true
-          
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DO_PAT }}
 
-      - name: Install other dependencies
+      - name: Compute info and add to firewall
+        id: firewall
         run: |
-          sudo apt update
-          sudo apt install -y curl zip
-
-          sudo tee /etc/apt/sources.list.d/pgdg.list <<END
-          deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main
-          END
-
-          # get the signing key and import it
-          curl -O https://www.postgresql.org/media/keys/ACCC4CF8.asc
-          sudo apt-key add ACCC4CF8.asc
-          sudo apt update
-          sudo apt install -y postgresql-client-11 gdal-bin
-          sudo apt autoremove
-
-      - name: Add IP to firewall
-        run: |
-          echo "IP=$(hostname -I | awk '{print $1}')" >> $GITHUB_ENV
-          echo "DO_FIREWALL_ID=$(doctl compute firewall ls -o json | jq -r '.[] | select(.name == "edm-firewall") | .id')" >> $GITHUB_ENV
-          doctl compute firewall add-rules $DO_FIREWALL_ID --inbound-rules "protocol:tcp,ports:all,address:$IP/0"
+          IP=$(hostname -I | awk '{print $1}')
+          FIREWALL=$(doctl compute firewall ls -o json | jq -r '.[] | select(.name == "edm-firewall") | .id')
+          RULE="protocol:tcp,ports:5432-5433,address:$IP"
+          doctl compute firewall add-rules $FIREWALL --inbound-rules $RULE
+          echo "::set-output name=FIREWALL::$FIREWALL"
+          echo "::set-output name=rule::$RULE"
+ 
           
       - name: run things
         run: | 
@@ -65,5 +48,8 @@ jobs:
             );"
 
       - name: Remove IP from firewall
+        env:
+          FIREWALL: ${{ steps.firewall.outputs.firewall }}
+          RULE: ${{ steps.firewall.outputs.rule }}
         run: |
-          doctl compute firewall remove-rules $DO_FIREWALL_ID --inbound-rules "protocol:tcp,ports:all,address:$IP"
+          doctl compute firewall remove-rules $FIREWALL --inbound-rules $RULE
