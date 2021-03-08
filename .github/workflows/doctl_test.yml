@@ -1,6 +1,9 @@
 name: Doctl Test
 
 on:
+  push:
+    paths:
+      - .github/workflows/doctl_test.yml
   workflow_dispatch:
   
 jobs:
@@ -23,7 +26,7 @@ jobs:
         run: |
           IP=$(curl https://api.ipify.org)
           FIREWALL=$(doctl compute firewall ls -o json | jq -r '.[] | select(.name == "edm-firewall") | .id')
-          RULE="protocol:tcp,ports:5432-5433,address:$IP"
+          RULE="protocol:tcp,ports:all,address:$IP"
           doctl compute firewall add-rules $FIREWALL --inbound-rules $RULE
           echo "::set-output name=FIREWALL::$FIREWALL"
           echo "::set-output name=rule::$RULE"
@@ -31,21 +34,7 @@ jobs:
           
       - name: run things
         run: | 
-          psql $BUILD_ENGINE -c "DROP TABLE IF EXISTS doctl_test;"
-          psql $BUIL_ENGINE -c "CREATE TABLE doctl_test (
-                bbl text,
-                field text,
-                old_value text,
-                new_value text,
-            );"
-
-          psql $RECIPE_ENGINE -c "DROP TABLE IF EXISTS test.doctl_test;"
-          psql $RECIPE_ENGINE -c "CREATE TABLE test (
-                bbl text,
-                field text,
-                old_value text,
-                new_value text,
-            );"
+          psql $BUILD_ENGINE -c "SELECT 'this is working' as work;"
 
       - name: Remove IP from firewall
         env:
