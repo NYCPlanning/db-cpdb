@@ -3,7 +3,6 @@ from .utils import psql_insert_copy
 import pandas as pd
 import os
 from sqlalchemy import create_engine
-from tqdm.contrib.concurrent import process_map
 from multiprocessing import Pool, cpu_count
 
 BUILD_ENGINE = create_engine(os.environ.get('BUILD_ENGINE'))
