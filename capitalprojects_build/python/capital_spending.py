@@ -4,6 +4,7 @@ import pandas as pd
 import os
 from sqlalchemy import create_engine
 from tqdm.contrib.concurrent import process_map
+from multiprocessing import Pool, cpu_count
 
 BUILD_ENGINE = create_engine(os.environ.get('BUILD_ENGINE'))
 
@@ -55,4 +56,5 @@ def get_all_projectids():
 if __name__ == "__main__":
     BUILD_ENGINE.execute("""DROP TABLE IF EXISTS capital_spending;""")
     projectids = get_all_projectids()
-    process_map(get_project_records, projectids, chunksize=100)
+    with Pool(cpu_count()) as p:
+        p.map(get_project_records, projectids)
