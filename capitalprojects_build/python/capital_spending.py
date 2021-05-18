@@ -31,13 +31,17 @@ def get_project_records(projectid: str):
 
     if len(results) > 0:
         df = pd.DataFrame(results, dtype=str)
-        df.to_sql(
-            'capital_spending',
-            con=BUILD_ENGINE,
-            if_exists="append",
-            index=False,
-            method=psql_insert_copy,
-        )
+        try:
+            df.to_sql(
+                'capital_spending',
+                con=BUILD_ENGINE,
+                if_exists="append",
+                index=False,
+                method=psql_insert_copy,
+            )
+        except:
+            print(df.head())
+            print(projectid)
 
 
 def get_all_projectids():
