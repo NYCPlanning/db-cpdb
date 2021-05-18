@@ -28,6 +28,7 @@ def get_project_records(projectid: str):
                 results += transaction
             except:
                 pass
+
     if len(results) > 0:
         df = pd.DataFrame(results, dtype=str)
         df.to_sql(
@@ -55,5 +56,5 @@ def get_all_projectids():
 if __name__ == "__main__":
     BUILD_ENGINE.execute("""DROP TABLE IF EXISTS capital_spending;""")
     projectids = get_all_projectids()
-    with Pool(cpu_count()) as p:
+    with Pool(cpu_count()*2) as p:
         p.map(get_project_records, projectids)

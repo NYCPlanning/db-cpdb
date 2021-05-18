@@ -5,6 +5,7 @@ import aiohttp
 import asyncio
 from random import randint
 from collections import OrderedDict
+import time
 
 
 class CheckbookNYC(object):
@@ -56,12 +57,19 @@ class CheckbookNYC(object):
     @cached_property
     def NumberOfRecords(self) -> int:
         postString = self.build_xmlString(1, 1)
-        resp = requests.post(self.endpoint, data=postString)
-        response = xmltodict.parse(resp.content)
-        number_of_records = int(
-            response["response"]["result_records"]["record_count"])
-        print("total number of records for this search is: ", number_of_records)
-        return number_of_records
+        tries = 1
+        while tries < 5:
+            try:
+                resp = requests.post(self.endpoint, data=postString)
+                response = xmltodict.parse(resp.content)
+                number_of_records = int(
+                    response["response"]["result_records"]["record_count"])
+                print(
+                    f"total number of records for this search is: {number_of_records}")
+                return number_of_records
+            except:
+                tries += 1
+                time.sleep(randint(0, 5))
 
     @cached_property
     def RequestTasks(self):
