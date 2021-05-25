@@ -3,7 +3,7 @@ if [ -f .env ]
 then
   export $(cat .env | sed 's/#.*//g' | xargs)
 fi
-
+DATE=$(date "+%Y-%m-%d")
 function urlparse {
     proto="$(echo $1 | grep :// | sed -e's,^\(.*://\).*,\1,g')"
     url=$(echo $1 | sed -e s,$proto,,g)
@@ -30,6 +30,13 @@ function max_bg_procs {
             fi
             sleep 1
     done
+}
+
+function get_version {
+  local name=$1
+  local version=${2:-latest} #default version to latest
+  local version=$(mc cat spaces/edm-recipes/datasets/$name/$version/config.json | jq -r '.dataset.version')
+  echo "$version"
 }
 
 function import_private {

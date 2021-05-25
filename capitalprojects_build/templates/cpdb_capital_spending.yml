@@ -1,10 +1,10 @@
 dataset:
-  name: &name capital_spending
+  name: &name cpdb_capital_spending
   version: "{{ version }}"
   acl: public
   source:
     url:
-      path: /.output/capital_spending.csv
+      path: /.output/cpdb_capital_spending.csv
       subpath: ""
     options:
       - "AUTODETECT_TYPE=NO"

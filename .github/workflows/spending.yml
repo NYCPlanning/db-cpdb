@@ -30,21 +30,17 @@ jobs:
             AWS_S3_BUCKET: edm-recipes
         steps:
             - uses: actions/checkout@v2
-            - uses: actions/setup-python@v2
-              with:
-                python-version: '3.9'
 
-            - name: install dependencies ...
-              run: |
-                curl -O https://dl.min.io/client/mc/release/linux-amd64/mc
-                chmod +x mc
-                sudo mv ./mc /usr/bin
-                mc config host add spaces $AWS_S3_ENDPOINT $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY --api S3v4
+            - name: Set up Cloud SDK
+              uses: google-github-actions/setup-gcloud@master
+              with:
+                project_id: ${{ secrets.GCP_PROJECT_ID }}
+                service_account_key: ${{ secrets.GCP_SA_KEY }}
+                export_default_credentials: true
             
-            - name: Run Capital Spending Scraping
-              working-directory: capitalprojects_build
+            - name: Copy the Latest fisa capital commitment to biquery
               run: ./11_spending.sh
-            
+
             - name: Archive to Data Library -- pgdump
               working-directory: capitalprojects_build
               run:
@@ -55,7 +51,7 @@ jobs:
                     -e AWS_S3_BUCKET=$AWS_S3_BUCKET\
                     -v $(pwd)/templates:/templates\
                     -v $(pwd)/.output:/.output\
-                    nycplanning/library:ubuntu-01d9e5eddf65dbdea3eb0c500314963b5ec6246a library archive -f /templates/capital_spending.yml -s -l -o pgdump --compress
+                    nycplanning/library:ubuntu-01d9e5eddf65dbdea3eb0c500314963b5ec6246a library archive -f /templates/cpdb_capital_spending.yml -s -l -o pgdump --compress
           
             - name: Archive to Data Library -- csv
               working-directory: capitalprojects_build
@@ -67,5 +63,4 @@ jobs:
                     -e AWS_S3_BUCKET=$AWS_S3_BUCKET\
                     -v $(pwd)/templates:/templates\
                     -v $(pwd)/.output:/.output\
-                    nycplanning/library:ubuntu-01d9e5eddf65dbdea3eb0c500314963b5ec6246a library archive -f /templates/capital_spending.yml -s -l -o csv --compress
-          
+                    nycplanning/library:ubuntu-01d9e5eddf65dbdea3eb0c500314963b5ec6246a library archive -f /templates/cpdb_capital_spending.yml -s -l -o csv --compress

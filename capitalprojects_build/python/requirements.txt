@@ -1,6 +1,0 @@
-xmltodict
-aiohttp[speedups]
-psycopg2-binary
-sqlalchemy
-pandas
-requests
