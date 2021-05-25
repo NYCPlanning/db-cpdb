@@ -49,7 +49,7 @@ function calculate {
             --use_legacy_sql=false "
             SELECT * FROM \`checkbooknyc_capital_spending.*\` 
             WHERE CAST(TRIM(LEFT(capital_project,12)) AS STRING) IN (
-                SELECT LPAD(CAST(managing_agcy_cd AS STRING), 3, '0')||REPLACE(project_id,' ','')
+                SELECT DISTINCT LPAD(CAST(managing_agcy_cd AS STRING), 3, '0')||REPLACE(project_id,' ','')
                 FROM \`fisa_capitalcommitments.$version\`);"
     )
     echo 
