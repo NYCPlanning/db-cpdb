@@ -47,7 +47,7 @@ function calculate {
             --replace\
             --destination_table $tablename \
             --use_legacy_sql=false "
-            SELECT * FROM \`checkbooknyc_capital_spending.*\` 
+            SELECT DISTINCT * FROM \`checkbooknyc_capital_spending.*\` 
             WHERE CAST(TRIM(LEFT(capital_project,12)) AS STRING) IN (
                 SELECT DISTINCT LPAD(CAST(managing_agcy_cd AS STRING), 3, '0')||REPLACE(project_id,' ','')
                 FROM \`fisa_capitalcommitments.$version\`);"
@@ -75,6 +75,19 @@ function export_data {
     echo 
 }
 
+function archive {
+    local format=$1
+    docker run --rm \
+        -e AWS_S3_ENDPOINT=$AWS_S3_ENDPOINT\
+        -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID\
+        -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY\
+        -e AWS_S3_BUCKET=$AWS_S3_BUCKET\
+        -v $(pwd)/.library:/library/.library\
+        -v $(pwd)/templates:/templates\
+        -v $(pwd)/.output:/.output\
+        nycplanning/library:ubuntu-01d9e5eddf65dbdea3eb0c500314963b5ec6246a library archive -f /templates/cpdb_capital_spending.yml -v $version -s -l -o $format --compress
+}
+
 function all {
     import
     fisa
@@ -84,6 +97,6 @@ function all {
 
 # Execution of All commands:
 case $1 in 
-    import | fiss | calculate | export_data) $1;;
+    import | fisa | calculate | export_data | archive ) $@;;
     *) all;;
 esac

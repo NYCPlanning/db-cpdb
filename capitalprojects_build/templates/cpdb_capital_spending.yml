@@ -1,7 +1,7 @@
 dataset:
   name: &name cpdb_capital_spending
   version: "{{ version }}"
-  acl: public
+  acl: public-read
   source:
     url:
       path: /.output/cpdb_capital_spending.csv
