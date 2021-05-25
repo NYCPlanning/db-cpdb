@@ -1,9 +1,6 @@
 name: capital spending
 
 on:
-    push:
-        branches:
-          - refactor-capital-spending
     workflow_dispatch:
 
 jobs:
