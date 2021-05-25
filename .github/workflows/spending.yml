@@ -49,26 +49,8 @@ jobs:
               working-directory: capitalprojects_build
               run: ./11_spending.sh
 
-            - name: Archive to Data Library -- pgdump
+            - name: Archive to Data Library -- pgdump and csv
               working-directory: capitalprojects_build
-              run:
-                docker run --rm \
-                    -e AWS_S3_ENDPOINT=$AWS_S3_ENDPOINT\
-                    -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID\
-                    -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY\
-                    -e AWS_S3_BUCKET=$AWS_S3_BUCKET\
-                    -v $(pwd)/templates:/templates\
-                    -v $(pwd)/.output:/.output\
-                    nycplanning/library:ubuntu-01d9e5eddf65dbdea3eb0c500314963b5ec6246a library archive -f /templates/cpdb_capital_spending.yml -s -l -o pgdump --compress
-          
-            - name: Archive to Data Library -- csv
-              working-directory: capitalprojects_build
-              run:
-                docker run --rm \
-                    -e AWS_S3_ENDPOINT=$AWS_S3_ENDPOINT\
-                    -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID\
-                    -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY\
-                    -e AWS_S3_BUCKET=$AWS_S3_BUCKET\
-                    -v $(pwd)/templates:/templates\
-                    -v $(pwd)/.output:/.output\
-                    nycplanning/library:ubuntu-01d9e5eddf65dbdea3eb0c500314963b5ec6246a library archive -f /templates/cpdb_capital_spending.yml -s -l -o csv --compress
+              run: |
+                ./11_spending.sh archive csv
+                ./11_spending.sh archive pgdump
