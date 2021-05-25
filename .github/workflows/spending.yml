@@ -39,6 +39,7 @@ jobs:
                 export_default_credentials: true
             
             - name: Copy the Latest fisa capital commitment to biquery
+              working-directory: capitalprojects_build
               run: ./11_spending.sh
 
             - name: Archive to Data Library -- pgdump
