@@ -1,6 +1,5 @@
 #!/bin/bash
-if [ -f .env ]
-then
-  export $(cat .env | sed 's/#.*//g' | xargs)
-fi
+CURRENT_DIR=$(dirname "$(readlink -f "$0")")
+source $CURRENT_DIR/config.sh
+
 python3 python/get_checkbook.py

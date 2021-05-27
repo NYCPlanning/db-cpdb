@@ -1,8 +1,6 @@
 #!/bin/bash
-if [ -f .env ]
-then
-  export $(cat .env | sed 's/#.*//g' | xargs)
-fi
+CURRENT_DIR=$(dirname "$(readlink -f "$0")")
+source $CURRENT_DIR/config.sh
 
 echo 'Creating maprojid --> parkid relational table'
 psql $BUILD_ENGINE -f sql/attributes_maprojid_parkid.sql
