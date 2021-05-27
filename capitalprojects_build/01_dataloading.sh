@@ -4,36 +4,36 @@ source $CURRENT_DIR/config.sh
 max_bg_procs 5
 
 # Spatial boundaries
-import_public dcp_stateassemblydistricts &
-import_public dcp_censustracts &
-import_public dcp_congressionaldistricts &
-import_public dcp_cdboundaries &
-import_public dcp_statesenatedistricts &
-import_public dcp_municipalcourtdistricts &
-import_public dcp_school_districts &
-import_public dcp_trafficanalysiszones &
-import_public dcp_councildistricts &
-import_public nypd_policeprecincts &
-import_public fdny_firecompanies &
+import dcp_stateassemblydistricts &
+import dcp_censustracts &
+import dcp_congressionaldistricts &
+import dcp_cdboundaries &
+import dcp_statesenatedistricts &
+import dcp_municipalcourtdistricts &
+import dcp_school_districts &
+import dcp_trafficanalysiszones &
+import dcp_councildistricts &
+import nypd_policeprecincts &
+import fdny_firecompanies &
 
 # Building and lot-level info
-import_public dcp_mappluto &
-import_public dcp_facilities &
-import_public doitt_buildingfootprints &
+import dcp_mappluto &
+import dcp_facilities &
+import doitt_buildingfootprints &
 
 # Projects
-import_public capital_spending &
-import_public fisa_capitalcommitments &
-import_public dot_projects_intersections &
-import_public dot_projects_streets &
-import_public dot_projects_bridges &
-import_public dpr_capitalprojects &
-import_public dpr_parksproperties &
-import_public edc_capitalprojects_ferry &
-import_public edc_capitalprojects &
-import_public dcp_cpdb_agencyverified &
-import_public ddc_capitalprojects_infrastructure &
-import_public ddc_capitalprojects_publicbuildings &
+import capital_spending &
+import fisa_capitalcommitments &
+import dot_projects_intersections &
+import dot_projects_streets &
+import dot_projects_bridges &
+import dpr_capitalprojects &
+import dpr_parksproperties &
+import edc_capitalprojects_ferry &
+import edc_capitalprojects &
+import dcp_cpdb_agencyverified &
+import ddc_capitalprojects_infrastructure &
+import ddc_capitalprojects_publicbuildings &
 
 wait
 
