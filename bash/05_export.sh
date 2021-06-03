@@ -5,7 +5,7 @@ source $CURRENT_DIR/config.sh
 # cpdb_dcpattributes
 psql $BUILD_ENGINE -v ccp_v=$ccp_v -f sql/_create_export.sql
 psql $BUILD_ENGINE -v ccp_v=$ccp_v -f sql/attributes_combined_fisa.sql
-psql $BUILD_ENGINE -v ccp_v=$ccp_v -f sql/projects_spending_byyear.sql
+python3 python/projects_spending_byyear.sql
 
 mkdir -p output && (
     cd output
