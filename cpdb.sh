@@ -25,10 +25,44 @@ function cpdb_archive {
     esac
 }
 
+function cpdb_upload {
+    local branchname=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)
+    local DATE=$(date "+%Y-%m-%d")
+    local SPACES="spaces/edm-private/db-cpdb/$branchname"
+    local HASH=$(git describe --always)
+    mc rm -r --force $SPACES/latest
+    mc rm -r --force $SPACES/$DATE
+    mc rm -r --force $SPACES/$HASH
+    mc cp --attr acl=private -r output $SPACES/latest
+    mc cp --attr acl=private -r output $SPACES/$DATE
+    mc cp --attr acl=private -r output $SPACES/$HASH
+}
+
+function share {
+    shift;
+    case $1 in
+        --help )
+            echo
+            echo "This command will generate a sharable url for a private file (Expiration 7 days)"
+            echo "Usage: ./cpdb.sh share {{ branch }} {{ version }} {{ filename }}" 
+            echo "e.g. : ./cpdb.sh share main latest output.zip"
+            echo
+        ;;
+        *)
+            local branch=${1:-main}
+            local version=${2:-latest}
+            local file=${3:-output.zip}
+            mc share download spaces/edm-private/db-cpdb/$branch/$version/output/$file
+        ;;
+    esac
+}
+
 case $1 in 
     dataloading ) ./bash/01_dataloading.sh ;;
     attribute ) ./bash/02_build_attribute.sh ;;
     adminbounds ) ./bash/03_adminbounds.sh ;;
     analysis ) ./bash/04_analysis.sh ;;
     archive ) cpdb_archive $@ ;;
+    upload ) cpdb_upload ;;
+    share ) share $@ ;;
 esac

@@ -56,6 +56,9 @@ jobs:
       - name: 05 Export
         run: ./cpdb.sh export
       
-      - name: 06 Archive
+      - name: 06 Upload to DigitalOcean
+        run: ./cpdb.sh upload
+      
+      - name: 07 Archive to secrets.EDM_DATA
         if: github.ref == 'refs/heads/main'
         run: ./cpdb.sh archive --all
