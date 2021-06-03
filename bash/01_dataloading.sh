@@ -1,7 +1,9 @@
 #!/bin/bash
-CURRENT_DIR=$(dirname "$(readlink -f "$0")")
+CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 source $CURRENT_DIR/config.sh
-max_bg_procs 5
+
+# Reference tables
+psql $BUILD_ENGINE -f sql/_create.sql
 
 # Spatial boundaries
 import dcp_stateassemblydistricts &
@@ -34,13 +36,7 @@ import edc_capitalprojects &
 import dcp_cpdb_agencyverified &
 import ddc_capitalprojects_infrastructure &
 import ddc_capitalprojects_publicbuildings &
-
 wait
 
 echo "fixing dot_bridges"
-docker run --rm\
-    -v $(pwd)/python:/home/python\
-    -w /home/python\
-    -e BUILD_ENGINE=$BUILD_ENGINE\
-    -e RECIPE_ENGINE=$RECIPE_ENGINE\
-    nycplanning/cook:latest python3 dot_bridges.py
+python3 dot_bridges.py

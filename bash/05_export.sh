@@ -1,10 +1,6 @@
 #!/bin/bash
-CURRENT_DIR=$(dirname "$(readlink -f "$0")")
+CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 source $CURRENT_DIR/config.sh
-
-DATE=$(date "+%Y-%m-%d")
-
-source ./url_parse.sh $BUILD_ENGINE
 
 # cpdb_dcpattributes
 mkdir -p output/cpdb_dcpattributes_pts && 
@@ -58,10 +54,3 @@ psql $BUILD_ENGINE -v ccp_v=$ccp_v -f sql/projects_spending_byyear.sql
 psql $BUILD_ENGINE -c "\copy (
     SELECT * FROM cpdb_projects_spending_byyear) TO stdout DELIMITER ',' CSV HEADER;" \
         > output/cpdb_projects_spending_byyear.csv
-
-zip -r output.zip output
-
-mc rm -r --force mino/db-cpdb/latest
-mc rm -r --force mino/db-cpdb/$DATE
-mc cp -r output mino/db-cpdb/latest
-mc cp -r output mino/db-cpdb/$DATE
