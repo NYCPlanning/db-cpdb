@@ -1,26 +1,53 @@
 name: capital spending
 
-on: [push]
+on:
+    workflow_dispatch:
 
 jobs:
-    skip:
-        name: Build and test
-        runs-on: self-hosted
-        if: "contains(github.event.head_commit.message, '[scrape]')"
-        steps:
-            - run: echo "${{ github.event.head_commit.message }}"
     scrape:
-        needs: skip
-        runs-on: self-hosted
         timeout-minutes: 720
-        container: sptkl/cook:latest
+        runs-on: ubuntu-20.04
+        services:
+            postgres:
+                image: postgis/postgis:12-3.0-alpine
+                env:
+                    POSTGRES_PASSWORD: postgres
+                options: >-
+                    --health-cmd pg_isready
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 5
+                ports:
+                    - 5432:5432
         env:
-            RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
-            BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
+            BUILD_ENGINE: postgresql://postgres:postgres@localhost:5432/postgres
+            AWS_S3_ENDPOINT: ${{ secrets.DO_S3_ENDPOINT }}
+            AWS_ACCESS_KEY_ID: ${{ secrets.DO_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.DO_SECRET_ACCESS_KEY }}
+            AWS_S3_BUCKET: edm-recipes
         steps:
             - uses: actions/checkout@v2
-            - name: run
+
+            - name: install dependencies ...
+              run: |
+                curl -O https://dl.min.io/client/mc/release/linux-amd64/mc
+                chmod +x mc
+                sudo mv ./mc /usr/bin
+                mc config host add spaces $AWS_S3_ENDPOINT $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY --api S3v4
+
+            - name: Set up Cloud SDK
+              uses: google-github-actions/setup-gcloud@master
+              with:
+                project_id: ${{ secrets.GCP_PROJECT_ID }}
+                service_account_key: ${{ secrets.GCP_SA_KEY }}
+                export_default_credentials: true
+            
+            - name: Copy the Latest fisa capital commitment to biquery
+              working-directory: capitalprojects_build
+              run: ./11_spending.sh
+
+            - name: Archive to Data Library -- pgdump and csv
               working-directory: capitalprojects_build
               run: |
-                pip3 install pathlib requests lxml
-                ./11_spending.sh
+                ./11_spending.sh archive csv
+                ./11_spending.sh archive pgdump
