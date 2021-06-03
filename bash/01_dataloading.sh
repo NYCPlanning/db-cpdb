@@ -39,4 +39,4 @@ import ddc_capitalprojects_publicbuildings &
 wait
 
 echo "fixing dot_bridges"
-python3 $(pwd)/python/dot_bridges.py
+python3 python/dot_bridges.py
