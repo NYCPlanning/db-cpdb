@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 from geosupport import Geosupport, GeosupportError
 from multiprocessing import Pool, cpu_count
 import usaddress
-from .utils import psql_insert_copy
+from utils import psql_insert_copy
 
 g = Geosupport()
 

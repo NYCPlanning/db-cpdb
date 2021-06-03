@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 import pandas as pd
 import os
-from .utils import psql_insert_copy
+from utils import psql_insert_copy
 
 # connect to postgres db
 engine = create_engine(os.environ.get("BUILD_ENGINE", ""))

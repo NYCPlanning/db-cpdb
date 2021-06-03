@@ -1,8 +1,7 @@
 from sqlalchemy import create_engine
 import pandas as pd
 import os
-from .utils import psql_insert_copy
-# helper function
+from utils import psql_insert_copy
 
 
 def parkid_parse(x):
