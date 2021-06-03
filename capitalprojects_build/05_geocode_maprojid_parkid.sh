@@ -1,8 +1,7 @@
 #!/bin/bash
-if [ -f .env ]
-then
-  export $(cat .env | sed 's/#.*//g' | xargs)
-fi
+CURRENT_DIR=$(dirname "$(readlink -f "$0")")
+source $CURRENT_DIR/config.sh
+
 docker run --rm\
     -v $(pwd)/python:/home/python\
     -w /home/python\

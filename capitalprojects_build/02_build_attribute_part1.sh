@@ -1,8 +1,7 @@
 #!/bin/bash
-if [ -f .env ]
-then
-  export $(cat .env | sed 's/#.*//g' | xargs)
-fi
+CURRENT_DIR=$(dirname "$(readlink -f "$0")")
+source $CURRENT_DIR/config.sh
+
 psql $BUILD_ENGINE -f sql/projects_fisa.sql
 psql $BUILD_ENGINE -f sql/budget_fisa.sql
 psql $BUILD_ENGINE -f sql/commitments_fisa.sql
