@@ -39,4 +39,5 @@ import ddc_capitalprojects_publicbuildings &
 wait
 
 echo "fixing dot_bridges"
+psql $BUILD_ENGINE -c "ALTER TABLE dot_projects_bridges RENAME COLUMN fmsid TO fms_id;"
 python3 python/dot_bridges.py
