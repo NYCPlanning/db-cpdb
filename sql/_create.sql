@@ -59,7 +59,7 @@ CREATE TABLE dcp_cpdb_agencyverified (
     origin character varying,
     parkid character varying,
     parkname character varying,
-    zipcode character varying,
+    zipcode character varying
 );
 \COPY dcp_id_bin_map FROM 'data/dcp_cpdb_agencyverified.csv' DELIMITER ',' CSV HEADER;
 
