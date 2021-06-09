@@ -43,3 +43,23 @@ CREATE TABLE dcp_id_bin_map (
     bin text
 );
 \COPY dcp_id_bin_map FROM 'data/id_bin_map.csv' DELIMITER ',' CSV HEADER;
+
+DROP TABLE IF EXISTS dcp_cpdb_agencyverified;
+CREATE TABLE dcp_cpdb_agencyverified (
+    address character varying,
+    agency character varying,
+    bbl character varying,
+    bin character varying,
+    borough character varying,
+    bridgeid character varying,
+    category character varying,
+    description character varying,
+    mappable character varying,
+    maprojid character varying,
+    origin character varying,
+    parkid character varying,
+    parkname character varying,
+    zipcode character varying,
+);
+\COPY dcp_id_bin_map FROM 'data/dcp_cpdb_agencyverified.csv' DELIMITER ',' CSV HEADER;
+
