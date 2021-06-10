@@ -5,7 +5,7 @@ source bash/config.sh
 # cpdb_dcpattributes
 psql $BUILD_ENGINE -v ccp_v=$ccp_v -f sql/_create_export.sql
 psql $BUILD_ENGINE -v ccp_v=$ccp_v -f sql/attributes_combined_fisa.sql
-python3 python/projects_spending_byyear.sql
+python3 python/projects_spending_byyear.py
 
 mkdir -p output && (
     cd output
@@ -20,4 +20,5 @@ mkdir -p output && (
     echo 
     echo "export complete"
     echo
+    zip output.zip *
 )

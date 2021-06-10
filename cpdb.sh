@@ -67,6 +67,7 @@ case $1 in
     attribute ) ./bash/02_build_attribute.sh ;;
     adminbounds ) ./bash/03_adminbounds.sh ;;
     analysis ) ./bash/04_analysis.sh ;;
+    export ) ./bash/05_export.sh ;;
     archive ) cpdb_archive $@ ;;
     upload ) cpdb_upload ;;
     share ) share $@ ;;
