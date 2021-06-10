@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS dcp_projecttypes_agencies;
+DROP TABLE IF EXISTS dcp_projecttypes_agencies CASCADE;
 CREATE TABLE dcp_projecttypes_agencies (
     projecttype text,
     tycs text,
@@ -11,7 +11,7 @@ CREATE TABLE dcp_projecttypes_agencies (
 );
 \COPY dcp_projecttypes_agencies FROM 'data/dcp_projecttypes_agencies.csv' DELIMITER ',' CSV HEADER;
 
-DROP TABLE IF EXISTS dcp_agencylookup;
+DROP TABLE IF EXISTS dcp_agencylookup CASCADE;
 CREATE TABLE dcp_agencylookup (
     facdb_level text,
     facdb_agencyname_revised text,
@@ -24,27 +24,27 @@ CREATE TABLE dcp_agencylookup (
 \COPY dcp_agencylookup FROM 'data/agencylookup.csv' DELIMITER ',' CSV HEADER;
 
 
-DROP TABLE IF EXISTS dcp_json;
+DROP TABLE IF EXISTS dcp_json CASCADE;
 CREATE TABLE dcp_json (
     maprojid text, 
     geom text
 );
 \COPY dcp_json FROM 'data/dcp_json.csv' DELIMITER ',' CSV HEADER;
 
-DROP TABLE IF EXISTS cpdb_badgeoms;
+DROP TABLE IF EXISTS cpdb_badgeoms CASCADE;
 CREATE TABLE cpdb_badgeoms (
     maprojid text
 );
 \COPY cpdb_badgeoms FROM 'data/cpdb_geomsremove.csv' DELIMITER ',' CSV HEADER;
 
-DROP TABLE IF EXISTS dcp_id_bin_map;
+DROP TABLE IF EXISTS dcp_id_bin_map CASCADE;
 CREATE TABLE dcp_id_bin_map (
     maprojid text, 
     bin text
 );
 \COPY dcp_id_bin_map FROM 'data/id_bin_map.csv' DELIMITER ',' CSV HEADER;
 
-DROP TABLE IF EXISTS dcp_cpdb_agencyverified;
+DROP TABLE IF EXISTS dcp_cpdb_agencyverified CASCADE;
 CREATE TABLE dcp_cpdb_agencyverified (
     address character varying,
     agency character varying,
@@ -61,5 +61,5 @@ CREATE TABLE dcp_cpdb_agencyverified (
     parkname character varying,
     zipcode character varying
 );
-\COPY dcp_id_bin_map FROM 'data/dcp_cpdb_agencyverified.csv' DELIMITER ',' CSV HEADER;
+\COPY dcp_cpdb_agencyverified FROM 'data/dcp_cpdb_agencyverified.csv' DELIMITER ',' CSV HEADER;
 

@@ -1,6 +1,11 @@
 #!/bin/bash
 source bash/config.sh
 
+function sql {
+    shift;
+    psql $BUILD_ENGINE $@
+}
+
 function cpdb_archive {
     shift;
     case $1 in
@@ -65,4 +70,5 @@ case $1 in
     archive ) cpdb_archive $@ ;;
     upload ) cpdb_upload ;;
     share ) share $@ ;;
+    sql) sql $@;;
 esac
