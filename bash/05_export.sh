@@ -9,7 +9,7 @@ python3 python/projects_spending_byyear.py
 
 mkdir -p output && (
     cd output
-    SHP_export cpdb_dcpattributes_pts POINT &
+    SHP_export cpdb_dcpattributes_pts MULTIPOINT &
     SHP_export cpdb_dcpattributes_poly MULTIPOLYGON &
     CSV_export cpdb_adminbounds &
     CSV_export cpdb_projects_combined &
