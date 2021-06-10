@@ -139,7 +139,7 @@ psql $BUILD_ENGINE -f sql/attributes_maprojid_facilities.sql
 psql $BUILD_ENGINE -f sql/attributes_facilities.sql
 
 # 05_geocode_maprojid_parkid
-python3 attributes_maprojid_parkid.py
+python3 python/attributes_maprojid_parkid.py
 
 echo 'Creating maprojid --> parkid relational table'
 psql $BUILD_ENGINE -f sql/attributes_maprojid_parkid.sql
