@@ -1,9 +1,18 @@
 # db-cpdb
+
 ![capital spending](https://github.com/NYCPlanning/db-cpdb/workflows/capital%20spending/badge.svg) ![CI test](https://github.com/NYCPlanning/db-cpdb/workflows/CI%20test/badge.svg)
 
-## Instructions: 
-1. Edit `capitalprojects_build/version.env` to include the latest version name. e.g. `fisa_{year}`. Also edit the `sql/projects_spending_byyear.sql` file to reflect the current year. 
-2. Git add and commit with `[build]` in commit message to trigger a build. Note that this build will incorporate the previous `capital_spending` table from last build. 
-3. Since the checkbook NYC script needs the latest `maprojid` to do the request, we will run the scraping process after `[build]` 
-and in order to trigger a scraping process, do a git commit with `[scrape]` in the commit message
-4. The scrpaing process will take about 4 ~ 5 hours, after it's done, run build again by doing a git commit with `[build]` in the commit message to in corporate the latest `capital_spending` table scraped from checkbook NYC
+## Instructions
+
+1. All the relavent commands for running cpdb is wrapped in the cli bash script `./cpdb.sh`, please read the file for more details.
+2. The capital spending scraping process should be done right after we load `fisa_capitalcommitments` to data library. A seperate bash script will import  `fisa_capitalcommitments` to bigquery and we will create export the capital spending table `cpdb_capital_spending` via a bigquery command (see `bash/11_spending.sh` for more details)
+
+> Note that this process is triggered via workflow dispatch
+
+3. Make sure to edit the `version.env` file to reflect the current fiscal year.
+
+> Note that a cpdb build is triggered by a push event to the repo. The output files will be stored in subfolders named after branches.
+
+4. Since cpdb is still a private database. You can generate a pre-signed sharable link using the `./cpdb.sh share` command. Run `./cpdb.sh share --help` to see instructions.
+
+> Note: the url will only be valid for 7 days.
