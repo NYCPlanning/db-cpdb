@@ -1,6 +1,6 @@
 #!/bin/bash
-CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-source $CURRENT_DIR/config.sh
+source bash/config.sh
+
 
 # cpdb_dcpattributes
 psql $BUILD_ENGINE -v ccp_v=$ccp_v -f sql/_create_export.sql

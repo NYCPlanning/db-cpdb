@@ -1,6 +1,6 @@
 #!/bin/bash
-CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-source $CURRENT_DIR/config.sh
+source bash/config.sh
+
 
 # Import fisa_capitalcommitments to database
 version=$(get_version fisa_capitalcommitments)

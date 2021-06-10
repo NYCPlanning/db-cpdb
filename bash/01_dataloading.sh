@@ -1,6 +1,5 @@
 #!/bin/bash
-CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-source $CURRENT_DIR/config.sh
+source bash/config.sh
 
 # Reference tables
 psql $BUILD_ENGINE -f sql/_create.sql
@@ -24,7 +23,7 @@ import dcp_facilities &
 import doitt_buildingfootprints &
 
 # Projects
-import capital_spending &
+import cpdb_capital_spending &
 import fisa_capitalcommitments &
 import dot_projects_intersections &
 import dot_projects_streets &
@@ -40,4 +39,5 @@ wait
 
 echo "fixing dot_bridges"
 psql $BUILD_ENGINE -c "ALTER TABLE dot_projects_bridges RENAME COLUMN fmsid TO fms_id;"
+psql $BUILD_ENGINE -c "ALTER TABLE cpdb_capital_spending RENAME TO capital_spending;"
 python3 python/dot_bridges.py

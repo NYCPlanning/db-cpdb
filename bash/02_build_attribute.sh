@@ -1,6 +1,6 @@
 #!/bin/bash
-CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-source $CURRENT_DIR/config.sh
+source bash/config.sh
+
 
 psql $BUILD_ENGINE -f sql/projects_fisa.sql
 psql $BUILD_ENGINE -f sql/budget_fisa.sql

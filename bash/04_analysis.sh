@@ -1,6 +1,6 @@
 #!/bin/bash
-CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-source $CURRENT_DIR/config.sh
+source bash/config.sh
+
 
 # Summary table by managing and sponsor agency
 echo 'Creating summary tables by managing and sponsor agency'
