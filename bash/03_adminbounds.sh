@@ -1,10 +1,12 @@
 #!/bin/bash
-CURRENT_DIR=$(dirname "$(readlink -f "$0")")
-source $CURRENT_DIR/config.sh
+source bash/config.sh
 
-#########################################
-# create admin bounds relational tables #
-#########################################
+
+echo
+echo "#########################################"
+echo "# create admin bounds relational tables #"
+echo "#########################################"
+echo
 
 # attributes_maprojid_cd
 echo 'Creating maprojid --> community district relational table'

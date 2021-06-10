@@ -1,11 +1,12 @@
 #!/bin/bash
-source config.sh
+source bash/config.sh
+
 
 # Import fisa_capitalcommitments to database
 version=$(get_version fisa_capitalcommitments)
 location=US
 
-function import {
+function import_data {
     echo "version: $version"
     import_private fisa_capitalcommitments $version
 }
@@ -89,7 +90,7 @@ function archive {
 }
 
 function all {
-    import
+    import_data
     fisa
     calculate
     export_data
@@ -97,6 +98,6 @@ function all {
 
 # Execution of All commands:
 case $1 in 
-    import | fisa | calculate | export_data | archive ) $@;;
+    import_data | fisa | calculate | export_data | archive ) $@;;
     *) all;;
 esac

@@ -2,11 +2,10 @@ import pandas as pd
 import numpy as np
 import os
 import re
-import sqlalchemy as sql
 from sqlalchemy import create_engine
 from geosupport import Geosupport, GeosupportError
-from multiprocessing import Pool, cpu_count
 import usaddress
+from utils import psql_insert_copy
 
 g = Geosupport()
 
@@ -14,15 +13,21 @@ g = Geosupport()
 engine = create_engine(os.environ.get("BUILD_ENGINE", ""))
 
 # read in dcp_cpdb_agencyverified table
-dcp_cpdb_agencyverified = pd.read_sql_query(
-    "SELECT address, borough, maprojid FROM dcp_cpdb_agencyverified WHERE geom IS NULL AND address IS NOT NULL AND borough IS NOT NULL;",
-    engine,
+dcp_cpdb_agencyverified = pd.read_sql(
+    """
+    SELECT address, borough, maprojid 
+    FROM dcp_cpdb_agencyverified 
+    WHERE geom IS NULL 
+    AND address IS NOT NULL 
+    AND borough IS NOT NULL;
+    """, engine,
 )
 
 
 def quick_clean(address):
     address = (
-        "-".join([i.strip() for i in address.split("-")]) if address is not None else ""
+        "-".join([i.strip() for i in address.split("-")]
+                 ) if address is not None else ""
     )
     result = [
         k
@@ -89,6 +94,12 @@ for i in records:
         locs.append(geocode(i))
     except:
         print(i)
+
 locs = pd.DataFrame(locs).replace("", np.nan)
 # # update the dcp_cpdb_agencyverified geom based on bin
-locs.to_sql("dcp_cpdb_agencyverified_geo", con=engine, if_exists="replace")
+locs.to_sql(
+    "dcp_cpdb_agencyverified_geo",
+    con=engine,
+    if_exists="replace",
+    method=psql_insert_copy
+)

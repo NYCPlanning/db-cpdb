@@ -41,6 +41,7 @@ function max_bg_procs {
             sleep 1
     done
 }
+max_bg_procs 5
 
 function get_acl {
   local name=$1

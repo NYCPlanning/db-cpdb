@@ -1,11 +1,14 @@
 from sqlalchemy import create_engine
 import pandas as pd
 import os
+from utils import psql_insert_copy
 
 # connect to postgres db
 engine = create_engine(os.environ.get("BUILD_ENGINE", ""))
 
 # helper function
+
+
 def fms_parse(x):
     # case 1: comma separated fms ids
     if "," in x.fms_id:
@@ -44,5 +47,5 @@ bridges_cleaned["ogc_fid"] = bridges_cleaned["ogc_fid"].astype("str")
 
 # write new table to postgres
 bridges_cleaned.to_sql(
-    "dot_projects_bridges_byfms", engine, if_exists="replace", index=False
+    "dot_projects_bridges_byfms", engine, if_exists="replace", index=False, method=psql_insert_copy
 )

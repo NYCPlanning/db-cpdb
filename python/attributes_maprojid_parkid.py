@@ -1,8 +1,9 @@
 from sqlalchemy import create_engine
 import pandas as pd
 import os
+from utils import psql_insert_copy
 
-# helper function
+
 def parkid_parse(x):
     # comma separated parkids
     if "," in x.park_id:
@@ -29,10 +30,11 @@ parkproj = pd.read_sql_query(
 # park_id cleaning
 parkproj_cleaned = pd.DataFrame()
 for i in range(len(parkproj)):
-    parkproj_cleaned = parkproj_cleaned.append(parkid_parse(parkproj.iloc[i, :]))
+    parkproj_cleaned = parkproj_cleaned.append(
+        parkid_parse(parkproj.iloc[i, :]))
 
 parkproj_cleaned = parkproj_cleaned[["fmsid", "park_id"]]
 
 parkproj_cleaned.to_sql(
-    "dpr_capitalprojects_fms_parkid", engine, if_exists="replace", index=False
+    "dpr_capitalprojects_fms_parkid", engine, if_exists="replace", index=False, method=psql_insert_copy
 )

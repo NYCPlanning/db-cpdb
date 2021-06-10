@@ -1,7 +1,8 @@
 #!/bin/bash
-CURRENT_DIR=$(dirname "$(readlink -f "$0")")
-source $CURRENT_DIR/config.sh
-max_bg_procs 5
+source bash/config.sh
+
+# Reference tables
+psql $BUILD_ENGINE -f sql/_create.sql
 
 # Spatial boundaries
 import dcp_stateassemblydistricts &
@@ -22,7 +23,7 @@ import dcp_facilities &
 import doitt_buildingfootprints &
 
 # Projects
-import capital_spending &
+import cpdb_capital_spending &
 import fisa_capitalcommitments &
 import dot_projects_intersections &
 import dot_projects_streets &
@@ -34,13 +35,10 @@ import edc_capitalprojects &
 import dcp_cpdb_agencyverified &
 import ddc_capitalprojects_infrastructure &
 import ddc_capitalprojects_publicbuildings &
-
 wait
 
 echo "fixing dot_bridges"
-docker run --rm\
-    -v $(pwd)/python:/home/python\
-    -w /home/python\
-    -e BUILD_ENGINE=$BUILD_ENGINE\
-    -e RECIPE_ENGINE=$RECIPE_ENGINE\
-    nycplanning/cook:latest python3 dot_bridges.py
+psql $BUILD_ENGINE -c "ALTER TABLE dot_projects_bridges RENAME COLUMN fmsid TO fms_id;"
+psql $BUILD_ENGINE -c "DROP TABLE IF EXISTS capital_spending;"
+psql $BUILD_ENGINE -c "ALTER TABLE cpdb_capital_spending RENAME TO capital_spending;"
+python3 python/dot_bridges.py

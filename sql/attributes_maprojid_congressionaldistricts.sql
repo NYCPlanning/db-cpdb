@@ -6,7 +6,7 @@ CREATE TABLE attributes_maprojid_congressionaldistricts AS (
   FROM (
     SELECT a.maprojid AS feature_id,
     	'congdist'::text AS admin_boundary_type,
-       b.cong_dist::text AS admin_boundary_id
+       b.congdist::text AS admin_boundary_id
     FROM cpdb_dcpattributes a,
        dcp_congressionaldistricts b
     WHERE a.geom&&b.wkb_geometry and ST_Intersects(a.geom, b.wkb_geometry)) a

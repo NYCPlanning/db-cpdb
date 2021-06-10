@@ -1,14 +1,10 @@
 #!/bin/bash
-CURRENT_DIR=$(dirname "$(readlink -f "$0")")
-source $CURRENT_DIR/config.sh
+source bash/config.sh
+
 
 psql $BUILD_ENGINE -f sql/projects_fisa.sql
 psql $BUILD_ENGINE -f sql/budget_fisa.sql
 psql $BUILD_ENGINE -f sql/commitments_fisa.sql
-
-# Attributs
-start=$(date +'%T')
-echo "Starting Attributes Table work at: $start"
 
 # create the table
 echo 'Creating Attributes Table'
@@ -17,7 +13,6 @@ psql $BUILD_ENGINE -f sql/attributes.sql
 # categorize the projects
 echo 'Categorizing projects'
 psql $BUILD_ENGINE -f sql/projectscategorization.sql
-
 
 ## Geometries
 ### Old values can be overwritten later
@@ -106,3 +101,60 @@ psql $BUILD_ENGINE -f sql/attributes_ddc.sql
 # create geoms for agency mapped projects
 echo 'Creating geometries for agency verified data - Summer 2017'
 psql $BUILD_ENGINE -f sql/attributes_agencyverified_geoms.sql
+
+# geocode agencyverified
+docker run --rm\
+    --network host\
+    -v $(pwd)/python:/home/python\
+    -w /home/python\
+    -e BUILD_ENGINE=$BUILD_ENGINE\
+    nycplanning/docker-geosupport:latest bash -c "
+      python3 attributes_geom_agencyverified_geocode.py"
+
+# These may overwrite any geometry from above
+echo 'Adding agency verified geometries'
+psql $BUILD_ENGINE -f sql/attributes_agencyverified.sql
+
+# String matching should never overwrite a geometry from above
+
+# dpr -- fuzzy string on park id
+echo 'Adding DPR geometries based on string matching for park id'
+psql $BUILD_ENGINE -f sql/attributes_dpr_string_id.sql
+
+# dpr -- fuzzy string on park name
+echo 'Adding DPR geometries based on string matching for park name'
+psql $BUILD_ENGINE -f sql/attributes_dpr_string_name.sql
+
+echo
+echo "################################"
+echo "# attributes relational tables #"
+echo "################################"
+echo
+
+# facilities relational table
+echo 'Creating facilities relational table based on fuzzy string matching'
+psql $BUILD_ENGINE -f sql/attributes_maprojid_facilities.sql
+
+# and add geometries from FabDB based on that match above
+psql $BUILD_ENGINE -f sql/attributes_facilities.sql
+
+# 05_geocode_maprojid_parkid
+python3 python/attributes_maprojid_parkid.py
+
+echo 'Creating maprojid --> parkid relational table'
+psql $BUILD_ENGINE -f sql/attributes_maprojid_parkid.sql
+
+echo
+echo "###########################"
+echo "# final geometry clean-up #"
+echo "###########################"
+echo
+
+# geometry cleaning -- lines to polygons and all geoms to multi
+echo 'Cleaning geometries: lines to polygons and geoms to multi'
+psql $BUILD_ENGINE -f sql/attributes_geomclean.sql
+
+# remove faulty geometries	
+echo 'Removing bad geometries'	
+psql $BUILD_ENGINE -f sql/attributes_badgeoms.sql	
+# psql $BUILD_ENGINE -c "\copy cpdb_badgeoms FROM '/home/capitalprojects_build/cpdb_geomsremove.csv' DELIMITER ',' CSV;"

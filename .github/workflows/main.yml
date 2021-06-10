@@ -1,67 +1,63 @@
 name: CI
 
-on: [push]
+on:
+  push:
 
 jobs:
-  skip:
-    name: Build and test
-    runs-on: ubuntu-latest
-    if: "contains(github.event.head_commit.message, '[build]')"
-    steps:
-      - run: echo "${{ github.event.head_commit.message }}"
   build:
-    needs: skip
-    runs-on: self-hosted
+    runs-on: ubuntu-20.04
     env:
-      RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
-      BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
       EDM_DATA: ${{ secrets.EDM_DATA }}
-      MINIO_S3_ENDPOINT: ${{ secrets.MINIO_S3_ENDPOINT }}
-      MINIO_ACCESS_KEY_ID: ${{ secrets.MINIO_ACCESS_KEY_ID }}
-      MINIO_SECRET_ACCESS_KEY: ${{ secrets.MINIO_SECRET_ACCESS_KEY }}
+      BUILD_ENGINE: postgresql://postgres:postgres@localhost:5432/postgres
+      AWS_S3_ENDPOINT: ${{ secrets.DO_S3_ENDPOINT }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.DO_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.DO_SECRET_ACCESS_KEY }}
+    services:
+      postgres:
+        image: postgis/postgis:12-3.0-alpine
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
     steps:
-      - uses: AutoModality/action-clean@v1
       - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
       - name: install dependencies
-        working-directory: capitalprojects_build
-        run: ./setup.sh
-      
+        run: |
+          sudo apt install -y gdal-bin
+          curl -O https://dl.min.io/client/mc/release/linux-amd64/mc
+          chmod +x mc
+          sudo mv ./mc /usr/bin
+          mc config host add spaces $AWS_S3_ENDPOINT $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY --api S3v4
+          python3 -m pip install -r requirements.txt
+
       - name: 01 dataloading
-        working-directory: capitalprojects_build
-        shell: bash
-        run: ./01_dataloading.sh
+        run: ./cpdb.sh dataloading
       
-      - name: 02 build_attribute_part1
-        working-directory: capitalprojects_build
-        shell: bash
-        run: ./02_build_attribute_part1.sh
+      - name: 02 Build Atrribute
+        run: ./cpdb.sh attribute
       
-      - name: 03 geocode_agencyverified
-        working-directory: capitalprojects_build
-        shell: bash
-        run: ./03_geocode_agencyverified.sh
+      - name: 03 Adminbounds
+        run: ./cpdb.sh adminbounds
 
-      - name: 04 build_attribute_part2
-        working-directory: capitalprojects_build
-        run: ./04_build_attribute_part2.sh
+      - name: 04 Analysis
+        run: ./cpdb.sh analysis
 
-      - name: 05 geocode_maprojid_parkid
-        working-directory: capitalprojects_build
-        run: ./05_geocode_maprojid_parkid.sh
-
-      - name: 06 build attribute part3
-        working-directory: capitalprojects_build
-        run: ./06_build_attribute_part3.sh
-
-      - name: 07 adminbounds
-        working-directory: capitalprojects_build
-        run: ./07_adminbounds.sh
-
-      - name: 08 analysis
-        working-directory: capitalprojects_build
-        run: ./08_analysis.sh
-
-      - name: export
-        working-directory: capitalprojects_build
-        run: ./10_export.sh
-        
+      - name: 05 Export
+        run: ./cpdb.sh export
+      
+      - name: 06 Upload to DigitalOcean
+        run: ./cpdb.sh upload
+      
+      - name: 07 Archive to secrets.EDM_DATA
+        if: github.ref == 'refs/heads/main'
+        run: ./cpdb.sh archive --all

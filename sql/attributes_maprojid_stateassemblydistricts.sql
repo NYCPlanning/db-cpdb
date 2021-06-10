@@ -6,7 +6,7 @@ CREATE TABLE attributes_maprojid_stateassemblydistricts AS (
   FROM (
     SELECT a.maprojid AS feature_id,
        'stateassembly'::text AS admin_boundary_type,
-       b.assem_dist::text AS admin_boundary_id
+       b.assemdist::text AS admin_boundary_id
     FROM cpdb_dcpattributes a,
        dcp_stateassemblydistricts b
     WHERE ST_Intersects(a.geom, b.wkb_geometry)
