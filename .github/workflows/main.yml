@@ -3,12 +3,6 @@ name: CI
 on:
   push:
   workflow_dispatch:
-    inputs:
-      archive:
-        description: 'Would you like to archive outputs to EDM_DATA? (yes/no)'
-        required: false
-        default: 'yes'
-
 jobs:
   build:
     runs-on: ubuntu-20.04
