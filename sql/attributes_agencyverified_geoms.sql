@@ -22,7 +22,7 @@ AND a.geom IS NULL;
 UPDATE dcp_cpdb_agencyverified a
 SET geom = ST_Centroid(b.wkb_geometry)
 FROM doitt_buildingfootprints b 
-WHERE a.bin::text = b.bin::text
+WHERE a.bin::bigint::text = b.bin::bigint::text
 AND a.bin IS NOT NULL
 AND a.geom IS NULL;
 
