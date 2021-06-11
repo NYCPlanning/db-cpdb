@@ -385,7 +385,7 @@ WHERE commitments.managingagency=master.managingagency AND commitments.projectid
 
 --Add bin geoms via bin one bin is manually assigned
 WITH master AS (SELECT a.managingagency, a.projectid, a.bin, (trunc(b.bin, 0))::text, b.geom FROM commitments a, doitt_buildingfootprints b
-WHERE a.bin IS NOT NULL AND a.geom IS NULL AND a.bin=(trunc(b.bin, 0))::text)
+WHERE a.bin IS NOT NULL AND a.geom IS NULL AND a.bin=(trunc(b.bin::bigint::text, 0))::text)
 
 UPDATE commitments SET geom=ST_SetSRID(master.geom,26918)
 FROM master

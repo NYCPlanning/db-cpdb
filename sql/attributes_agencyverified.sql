@@ -1,7 +1,7 @@
 UPDATE dcp_cpdb_agencyverified a 
 SET geom = ST_Centroid(b.wkb_geometry) 
 FROM doitt_buildingfootprints b, dcp_cpdb_agencyverified_geo c
-WHERE b.bin = c.bin::bigint::text and a.maprojid = c.maprojid and c.bin is not null;
+WHERE b.bin::bigint::text = c.bin::bigint::text and a.maprojid = c.maprojid and c.bin is not null;
 
 UPDATE dcp_cpdb_agencyverified a 
 SET geom = ST_SetSRID(ST_MakePoint(c.lon::double precision, c.lat::double precision), 4326)
