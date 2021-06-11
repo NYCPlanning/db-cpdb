@@ -65,5 +65,5 @@ jobs:
         run: ./cpdb.sh upload
       
       - name: 07 Archive to secrets.EDM_DATA
-        if: github.event.inputs.archive == 'yes'
+        if: github.ref == 'refs/heads/main'
         run: ./cpdb.sh archive --all
