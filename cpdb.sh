@@ -22,6 +22,7 @@ function cpdb_archive {
         archive public.cpdb_projects_combined cpdb.cpdb_projects_combined &
         archive public.cpdb_commitments cpdb.cpdb_commitments &
         archive public.cpdb_projects cpdb.cpdb_projects &
+        archive public.cpdb_budgets cpdb.cpdb_budgets &
         archive public.cpdb_projects_spending_byyear cpdb.cpdb_projects_spending_byyear
         wait
         echo "Archive Complete"

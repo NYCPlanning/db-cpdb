@@ -15,10 +15,11 @@ mkdir -p output && (
     CSV_export cpdb_projects_combined &
     CSV_export cpdb_commitments &
     CSV_export cpdb_projects &
+    CSV_export cpdb_budgets &
     CSV_export cpdb_projects_spending_byyear &
     wait 
     echo 
     echo "export complete"
     echo
-    zip output.zip *
+    zip -r output.zip *
 )
