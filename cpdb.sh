@@ -23,7 +23,19 @@ function cpdb_archive {
         archive public.cpdb_commitments cpdb.cpdb_commitments &
         archive public.cpdb_projects cpdb.cpdb_projects &
         archive public.cpdb_budgets cpdb.cpdb_budgets &
-        archive public.cpdb_projects_spending_byyear cpdb.cpdb_projects_spending_byyear
+        archive public.cpdb_projects_spending_byyear cpdb.cpdb_projects_spending_byyear &
+        archive public.cpdb_capital_spending cpdb.cpdb_capital_spending&
+        archive public.fisa_capitalcommitments cpdb.fisa_capitalcommitments&
+        archive public.dot_projects_intersections cpdb.dot_projects_intersections&
+        archive public.dot_projects_streets cpdb.dot_projects_streets&
+        archive public.dot_projects_bridges cpdb.dot_projects_bridges&
+        archive public.dpr_capitalprojects cpdb.dpr_capitalprojects&
+        archive public.dpr_parksproperties cpdb.dpr_parksproperties &
+        archive public.edc_capitalprojects_ferry cpdb.edc_capitalprojects_ferry&
+        archive public.edc_capitalprojects cpdb.edc_capitalprojects&
+        archive public.dcp_cpdb_agencyverified cpdb.dcp_cpdb_agencyverified&
+        archive public.ddc_capitalprojects_infrastructure cpdb.ddc_capitalprojects_infrastructure&
+        archive public.ddc_capitalprojects_publicbuildings cpdb.ddc_capitalprojects_publicbuildings&
         wait
         echo "Archive Complete"
         ;;
