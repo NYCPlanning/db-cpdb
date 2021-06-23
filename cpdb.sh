@@ -16,6 +16,8 @@ function cpdb_archive {
         archive public.projects_by_communitydist_spending cpdb.projects_by_communitydist_spending
         archive public.projects_by_communitydist_spending_date cpdb.projects_by_communitydist_spending_date &
         archive public.agency_validated_geoms_summary_table cpdb.agency_validated_geoms_summary_table &
+        archive public.cpdb_projects cpdb.cpdb_projects &
+        archive public.cpdb_dcpattributes cpdb.cpdb_dcpattributes &
         archive public.cpdb_dcpattributes_pts cpdb.cpdb_dcpattributes_pts &
         archive public.cpdb_dcpattributes_poly cpdb.cpdb_dcpattributes_poly &
         archive public.cpdb_adminbounds cpdb.cpdb_adminbounds &
