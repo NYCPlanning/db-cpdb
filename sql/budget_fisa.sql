@@ -2,7 +2,7 @@
 
 --with fisa data
 DROP VIEW IF EXISTS cpdb_budgets;
-CREATE VIEW cpdb_budgets AS (
+CREATE TABLE cpdb_budgets AS (
         WITH summary AS (
         SELECT 'fisa_'||p.cycle_fy AS ccpversion,
         LPAD(p.managing_agcy_cd, 3, '0') AS magency,

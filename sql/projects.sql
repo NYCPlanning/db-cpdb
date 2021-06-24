@@ -2,7 +2,7 @@
 
 --with scraped data
 DROP VIEW IF EXISTS cpdb_projects;
-CREATE VIEW cpdb_projects AS(
+CREATE TABLE cpdb_projects AS(
        WITH summary AS (
 	SELECT p.ccpversion,
                p.managingagency AS magency,

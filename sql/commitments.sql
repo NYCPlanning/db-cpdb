@@ -2,7 +2,7 @@
 
 --with scraped data
 DROP VIEW IF EXISTS cpdb_commitments;
-CREATE VIEW cpdb_commitments AS (
+CREATE TABLE cpdb_commitments AS (
         WITH summary AS (
 	SELECT p.ccpversion,
         LPAD(p.managingagency,3,'0') AS magency,
