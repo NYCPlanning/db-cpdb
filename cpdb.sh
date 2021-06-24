@@ -28,7 +28,7 @@ function cpdb_archive {
         );
         " | while read -a Record ; do
             local table_name="${Record[0]}"
-            archive public.$table_name cpdb.$table_name &
+            archive public.$table_name cpdb.$table_name
         done
         wait
         echo "Archive Complete"
