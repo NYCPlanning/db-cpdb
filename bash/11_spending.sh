@@ -98,6 +98,6 @@ function all {
 
 # Execution of All commands:
 case $1 in 
-    import_data | fisa | calculate | export_data | archive | v) $@;;
+    import_data | fisa | calculate | export_data | archive) $@;;
     *) all;;
 esac
