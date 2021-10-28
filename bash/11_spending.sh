@@ -3,12 +3,12 @@ source bash/config.sh
 
 
 # Import fisa_capitalcommitments to database
-version=$(get_version fisa_capitalcommitments)
+version=$(get_version fisa_capitalcommitments latest private)
 location=US
 
 function import_data {
     echo "version: $version"
-    import_private fisa_capitalcommitments $version
+    import fisa_capitalcommitments $version
 }
 
 # Loading the latest fisa_capitalcommitments to bigquery
@@ -98,6 +98,6 @@ function all {
 
 # Execution of All commands:
 case $1 in 
-    import_data | fisa | calculate | export_data | archive ) $@;;
+    import_data | fisa | calculate | export_data | archive | v) $@;;
     *) all;;
 esac
