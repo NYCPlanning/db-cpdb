@@ -6,7 +6,7 @@ psql $BUILD_ENGINE -f sql/_create.sql
 
 # Spatial boundaries
 import dcp_stateassemblydistricts &
-import dcp_censustracts &
+import dcp_ct2020 &
 import dcp_congressionaldistricts &
 import dcp_cdboundaries &
 import dcp_statesenatedistricts &
