@@ -8,7 +8,7 @@ CREATE TABLE attributes_maprojid_censustracts AS (
         'borocode'::text AS admin_boundary_type,
        b.borocode::text AS admin_boundary_id
       FROM cpdb_dcpattributes a,
-       dcp_censustracts b
+       dcp_ct2020 b
     WHERE ST_Intersects(a.geom, b.wkb_geometry)
   ) a
   UNION ALL
@@ -18,7 +18,7 @@ CREATE TABLE attributes_maprojid_censustracts AS (
         'nta'::text AS admin_boundary_type,
        b.ntacode::text AS admin_boundary_id
       FROM cpdb_dcpattributes a,
-       dcp_censustracts b
+       dcp_ct2020 b
     WHERE ST_Intersects(a.geom, b.wkb_geometry)
   ) b
   UNION ALL
@@ -28,7 +28,7 @@ CREATE TABLE attributes_maprojid_censustracts AS (
         'puma'::text AS admin_boundary_type,
        b.puma::text AS admin_boundary_id
       FROM cpdb_dcpattributes a,
-       dcp_censustracts b
+       dcp_ct2020 b
     WHERE ST_Intersects(a.geom, b.wkb_geometry)
   ) c
   UNION ALL
@@ -38,7 +38,7 @@ CREATE TABLE attributes_maprojid_censustracts AS (
         'censtract'::text AS admin_boundary_type,
        b.boroct2010::text AS admin_boundary_id
       FROM cpdb_dcpattributes a,
-       dcp_censustracts b
+       dcp_ct2020 b
     WHERE ST_Intersects(a.geom, b.wkb_geometry)
   ) d
 )
