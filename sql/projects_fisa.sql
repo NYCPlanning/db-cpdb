@@ -50,8 +50,16 @@ CREATE TABLE cpdb_projects AS(
                c.nccother,
                c.noncitycost,
                c.totalcost,
-               a.cape_agencyacronym as magencyacro,
-               a.cape_agency as magencyname
+               (CASE
+               WHEN upper(s.description) LIKE '%BNY%' AND s.magency = '801' THEN 'BNY'
+               WHEN lower(s.description) LIKE '%governor%s island%' AND s.magency = '801' THEN 'TGI'
+               ELSE a.cape_agencyacronym
+               END) as magencyacro,
+               (CASE
+               WHEN upper(s.description) LIKE '%BNY%' AND s.magency = '801' THEN 'Brooklyn Navy Yard'
+               WHEN lower(s.description) LIKE '%governor%s island%' AND s.magency = '801' THEN 'Trust for Governors Island'
+               ELSE a.cape_agency 
+               END) as magencyname
         FROM summary as s,
              costs as c,
              dcp_agencylookup as a
