@@ -1,11 +1,5 @@
 -- remove faulty geometries from attributes table
 
--- create table of faulty geometries
-DROP TABLE IF EXISTS cpdb_badgeoms;
-CREATE TABLE cpdb_badgeoms (
-maprojid text
-);
-
 -- Remove
 UPDATE cpdb_dcpattributes
 SET geom = NULL
