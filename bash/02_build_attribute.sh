@@ -156,5 +156,6 @@ psql $BUILD_ENGINE -f sql/attributes_geomclean.sql
 
 # remove faulty geometries	
 echo 'Removing bad geometries'	
+psql $BUILD_ENGINE -c "DROP TABLE IF EXISTS cpdb_badgeoms; CREATE TABLE cpdb_badgeoms (maprojid text);"
+psql $BUILD_ENGINE -c "\COPY cpdb_badgeoms FROM './data/cpdb_geomsremove.csv' DELIMITER ',' CSV;"
 psql $BUILD_ENGINE -f sql/attributes_badgeoms.sql	
-# psql $BUILD_ENGINE -c "\copy cpdb_badgeoms FROM '/home/capitalprojects_build/cpdb_geomsremove.csv' DELIMITER ',' CSV;"
