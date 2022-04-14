@@ -7,8 +7,10 @@ assignees: ''
 
 ---
 
+The purpose of this issue is to help the team track the tasks that need to occur before kicking off a CPDB update.
+
 # Update source data
-Read more about how to update a specific dataset [here](https://github.com/NYCPlanning/db-cpdb/wiki/Maintenance)
+Read more about who to reach out to and how to update a specific dataset [here](https://github.com/NYCPlanning/db-cpdb/wiki/Maintenance)
 ## Received from agency partner and manually loaded into data libraries
 - [ ] Capital Commitment Plan: fisa_capitalcommitments
 - [ ] ddc_capitalprojects_infrastructure
@@ -20,28 +22,28 @@ Read more about how to update a specific dataset [here](https://github.com/NYCPl
 ## Automatically loaded into data libraries
 
 # Projects
--[ ] [cpdb_capital_spending](https://github.com/NYCPlanning/db-cpdb/actions/workflows/spending.yml) - updated with action
--[ ] dot_projects_intersections
--[ ] dot_projects_streets
--[ ] dpr_capitalprojects
--[ ] dpr_parksproperties
--[ ] dcp_cpdb_agencyverified (does not get updated)
+- [ ] [cpdb_capital_spending](https://github.com/NYCPlanning/db-cpdb/actions/workflows/spending.yml) - updated with action
+- [ ] dot_projects_intersections
+- [ ] dot_projects_streets
+- [ ] dpr_capitalprojects
+- [ ] dpr_parksproperties
+- [ ] dcp_cpdb_agencyverified (does not get updated)
 
 # Building and lot-level info
--[ ] dcp_mappluto
--[ ] dcp_facilities
--[ ] doitt_buildingfootprints
+- [ ] dcp_mappluto
+- [ ] dcp_facilities
+- [ ] doitt_buildingfootprints
 
 # Spatial boundaries
 Come from [Geosupport update](https://github.com/NYCPlanning/db-data-library/actions/workflows/quaterly-updates.yml)
--[ ] dcp_stateassemblydistricts
--[ ] dcp_ct2020
--[ ] dcp_congressionaldistricts
--[ ] dcp_cdboundaries
--[ ] dcp_statesenatedistricts
--[ ] dcp_municipalcourtdistricts
--[ ] dcp_school_districts
--[ ] dcp_trafficanalysiszones
--[ ] dcp_councildistricts
--[ ] nypd_policeprecincts
--[ ] fdny_firecompanies
+- [ ] dcp_stateassemblydistricts
+- [ ] dcp_ct2020
+- [ ] dcp_congressionaldistricts
+- [ ] dcp_cdboundaries
+- [ ] dcp_statesenatedistricts
+- [ ] dcp_municipalcourtdistricts
+- [ ] dcp_school_districts
+- [ ] dcp_trafficanalysiszones
+- [ ] dcp_councildistricts
+- [ ] nypd_policeprecincts
+- [ ] fdny_firecompanies
