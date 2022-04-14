@@ -16,27 +16,17 @@ CREATE TABLE attributes_maprojid_censustracts AS (
   FROM (
     SELECT a.maprojid AS feature_id,
         'nta'::text AS admin_boundary_type,
-       b.ntacode::text AS admin_boundary_id
+       b.nta2020::text AS admin_boundary_id
       FROM cpdb_dcpattributes a,
        dcp_ct2020 b
     WHERE ST_Intersects(a.geom, b.wkb_geometry)
   ) b
   UNION ALL
-  SELECT c.*
-  FROM (
-    SELECT a.maprojid AS feature_id,
-        'puma'::text AS admin_boundary_type,
-       b.puma::text AS admin_boundary_id
-      FROM cpdb_dcpattributes a,
-       dcp_ct2020 b
-    WHERE ST_Intersects(a.geom, b.wkb_geometry)
-  ) c
-  UNION ALL
   SELECT d.*
   FROM (
     SELECT a.maprojid AS feature_id,
         'censtract'::text AS admin_boundary_type,
-       b.boroct2010::text AS admin_boundary_id
+       b.boroct2020::text AS admin_boundary_id
       FROM cpdb_dcpattributes a,
        dcp_ct2020 b
     WHERE ST_Intersects(a.geom, b.wkb_geometry)
