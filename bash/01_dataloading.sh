@@ -19,7 +19,7 @@ import fdny_firecompanies &
 
 # Building and lot-level info
 import dcp_mappluto &
-import dcp_facilities &
+import dcp_facilities 20210315 &
 import doitt_buildingfootprints 20220410 &
 
 # Projects
