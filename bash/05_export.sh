@@ -17,6 +17,7 @@ mkdir -p output && (
     CSV_export cpdb_projects &
     CSV_export cpdb_budgets &
     CSV_export cpdb_projects_spending_byyear &
+    CSV_export ddc_capitalprojects_infrastructure &
     wait 
     echo 
     echo "export complete"
