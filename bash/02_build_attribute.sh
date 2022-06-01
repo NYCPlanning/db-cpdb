@@ -27,7 +27,7 @@ psql $BUILD_ENGINE -c "
         geomsource text, 
         geom geometry)"
 
-psql $BUILD_ENGINE -f sql/sprints.sql
+psql $BUILD_ENGINE -q -f sql/sprints.sql
 
 # update cpdb_dcpattributes with geoms from sprints
 echo 'Updating geometries from old sprints'
