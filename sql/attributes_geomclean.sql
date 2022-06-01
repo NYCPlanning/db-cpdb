@@ -6,6 +6,8 @@
 
 do $$
 BEGIN
+UPDATE cpdb_dcpattributes SET geom = ST_SnapToGrid(geom, .001);
+
     FOR i IN 1..(SELECT(count(maprojid)) from cpdb_dcpattributes) by 100 LOOP 
         UPDATE cpdb_dcpattributes 
         SET geom=ST_Buffer(geom::geography, 15)::geometry
