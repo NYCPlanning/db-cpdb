@@ -1,5 +1,5 @@
-from sqlalchemy import create_engine
 import pandas as pd
+from sqlalchemy import create_engine
 import os
 from utils import psql_insert_copy
 
@@ -47,5 +47,9 @@ bridges_cleaned["ogc_fid"] = bridges_cleaned["ogc_fid"].astype("str")
 
 # write new table to postgres
 bridges_cleaned.to_sql(
-    "dot_projects_bridges_byfms", engine, if_exists="replace", index=False, method=psql_insert_copy
+    "dot_projects_bridges_byfms",
+    engine,
+    if_exists="replace",
+    index=False,
+    method=psql_insert_copy,
 )
