@@ -85,8 +85,6 @@ function import {
       cd $target_dir
       if [ "$acl" != "public-read" ] ; then
         mc cp spaces/edm-recipes/datasets/$name/$version/$name.sql $name.sql
-        echo "404 cannot read $name"
-        echo "dataset is access level $acl"
       
       else
         curl -O $URL/datasets/$name/$version/$name.sql $name.sql
