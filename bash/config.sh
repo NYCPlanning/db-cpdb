@@ -96,30 +96,6 @@ function import {
 }
 
 function CSV_export {
-  psql $BUILD_ENGINE  -c "\COPY (
-    SELECT * FROM $@
-  ) TO STDOUT DELIMITER ',' CSV HEADER;" > $@.csv
-}
-
-function SHP_export {
-  urlparse $BUILD_ENGINE
-  table=$1
-  geomtype=$2
-  name=${3:-$table}
-  mkdir -p $name &&(
-    cd $name
-    ogr2ogr -progress -f "ESRI Shapefile" $name.shp \
-        PG:"host=$BUILD_HOST user=$BUILD_USER port=$BUILD_PORT dbname=$BUILD_DB password=$BUILD_PWD" \
-        $table -nlt $geomtype
-      rm -f $name.shp.zip
-      zip -9 $name.shp.zip *
-      ls | grep -v $name.shp.zip | xargs rm
-  )
-  mv $name/$name.shp.zip $name.shp.zip
-  rm -rf $name
-}
-
-function CSV_export {
   local name=$1
   local output_name=${2:-$name}
   psql $BUILD_ENGINE  -c "\COPY (
@@ -128,6 +104,7 @@ function CSV_export {
 }
 
 function SHP_export {
+  urlparse $BUILD_ENGINE
   local table=$1
   local geomtype=$2
   local name=${3:-$table}
