@@ -152,7 +152,7 @@ echo
 
 # geometry cleaning -- lines to polygons and all geoms to multi
 echo 'Cleaning geometries: lines to polygons and geoms to multi'
-psql $BUILD_ENGINE -f sql/attributes_geomclean.sql
+psql $BUILD_ENGINE -f -q sql/attributes_geomclean.sql
 
 # remove faulty geometries	
 echo 'Removing bad geometries'	
