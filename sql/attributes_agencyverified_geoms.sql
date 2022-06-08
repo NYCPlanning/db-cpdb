@@ -24,7 +24,8 @@ SET geom = ST_Centroid(b.wkb_geometry)
 FROM doitt_buildingfootprints b 
 WHERE a.bin::bigint::text = b.bin::bigint::text
 AND a.bin IS NOT NULL
-AND a.geom IS NULL;
+AND a.geom IS NULL
+AND a.bin::text <> '#REF!';
 
 -- add geom for projects based on bbl
 UPDATE dcp_cpdb_agencyverified a

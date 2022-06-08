@@ -27,7 +27,7 @@ psql $BUILD_ENGINE -c "
         geomsource text, 
         geom geometry)"
 
-psql $BUILD_ENGINE -f sql/sprints.sql
+psql $BUILD_ENGINE -q -f sql/sprints.sql
 
 # update cpdb_dcpattributes with geoms from sprints
 echo 'Updating geometries from old sprints'
@@ -152,7 +152,7 @@ echo
 
 # geometry cleaning -- lines to polygons and all geoms to multi
 echo 'Cleaning geometries: lines to polygons and geoms to multi'
-psql $BUILD_ENGINE -f sql/attributes_geomclean.sql
+psql $BUILD_ENGINE  -q  -f sql/attributes_geomclean.sql
 
 # remove faulty geometries	
 echo 'Removing bad geometries'	

@@ -45,7 +45,7 @@ jobs:
       - name: 01 dataloading
         run: ./cpdb.sh dataloading
       
-      - name: 02 Build Atrribute
+      - name: 02 Build Attribute
         run: ./cpdb.sh attribute
       
       - name: 03 Adminbounds
