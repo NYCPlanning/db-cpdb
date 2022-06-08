@@ -8,8 +8,3 @@ WHERE ST_GeometryType(geom) = 'ST_MultiLineString';
 UPDATE cpdb_dcpattributes
 SET geom=ST_Multi(geom)
 WHERE ST_GeometryType(geom) in ('ST_Polygon', 'ST_Point');
-
---Make the geom valid
--- UPDATE cpdb_dcpattributes
--- SET geom=ST_MakeValid(geom)
--- WHERE ST_IsValid(geom) = FALSE;
