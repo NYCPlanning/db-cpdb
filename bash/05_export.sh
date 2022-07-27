@@ -11,7 +11,8 @@ mkdir -p output && (
     cd output
     SHP_export cpdb_dcpattributes_pts MULTIPOINT &
     SHP_export cpdb_dcpattributes_poly MULTIPOLYGON &
-    CSV_export cpdb_adminbounds &
+    SHP_export cpdb_opendata_projects_pts MULTIPOINT &
+    SHP_export cpdb_opendata_projects_poly MULTIPOLYGON &
     CSV_export cpdb_projects_combined &
     CSV_export cpdb_commitments &
     CSV_export cpdb_projects &

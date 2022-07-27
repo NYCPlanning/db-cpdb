@@ -64,3 +64,67 @@ CREATE TABLE cpdb_opendata_projects AS (
     )
 SELECT s.*
 FROM summary s);
+
+DROP TABLE IF EXISTS cpdb_opendata_projects_pts;
+CREATE TABLE cpdb_opendata_projects_pts AS (
+    WITH summary AS (
+    SELECT p.maprojid,
+    p.magency, 
+    p.projectid, 
+    p.description, 
+    p.ccnonexempt,
+    p.ccexempt, 
+    p.citycost AS totalcityplannedcommit,
+    p.nccstate, 
+    p.nccfederal, 
+    p.nccother, 
+    p.noncitycost AS totalnoncityplannedcommit, 
+    p.totalcost AS totalplannedcommit, 
+    pc.totalspend,
+    pc.maxdate, 
+    pc.mindate,
+    p.magencyacro,
+    p.magencyname,
+    pc.typecategory,
+    p.ccpversion,
+    g.geom
+    FROM cpdb_projects as p,
+    cpdb_projects_combined as pc, 
+    cpdb_dcpattributes_pts as g
+    WHERE p.projectid = pc.projectid AND
+    p.projectid = g.projectid
+    )
+SELECT S.*
+FROM summary s);
+
+DROP TABLE IF EXISTS cpdb_opendata_projects_poly;
+CREATE TABLE cpdb_opendata_projects_poly AS (
+    WITH summary AS (
+    SELECT p.maprojid,
+    p.magency, 
+    p.projectid, 
+    p.description, 
+    p.ccnonexempt,
+    p.ccexempt, 
+    p.citycost AS totalcityplannedcommit,
+    p.nccstate, 
+    p.nccfederal, 
+    p.nccother, 
+    p.noncitycost AS totalnoncityplannedcommit, 
+    p.totalcost AS totalplannedcommit, 
+    pc.totalspend,
+    pc.maxdate, 
+    pc.mindate,
+    p.magencyacro,
+    p.magencyname,
+    pc.typecategory,
+    p.ccpversion,
+    g.geom
+    FROM cpdb_projects as p,
+    cpdb_projects_combined as pc, 
+    cpdb_dcpattributes_poly as g
+    WHERE p.projectid = pc.projectid AND
+    p.projectid = g.projectid
+    )
+SELECT S.*
+FROM summary s);
