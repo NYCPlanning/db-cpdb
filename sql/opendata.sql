@@ -29,8 +29,8 @@ CREATE TABLE cpdb_opendata_commitments AS (
     FROM cpdb_commitments as c,
         cpdb_budgets as b, 
         cpdb_projects as p
-    WHERE c.projectid = p.projectid AND
-    c.projectid = b.projectid
+    WHERE c.maprojid = p.maprojid AND
+    c.maprojid = b.maprojid
     )
 SELECT s.*
 FROM summary s);
@@ -60,7 +60,7 @@ CREATE TABLE cpdb_opendata_projects AS (
     p.ccpversion
     FROM cpdb_projects as p,
     cpdb_projects_combined as pc
-    WHERE p.projectid = pc.projectid
+    WHERE p.maprojid = pc.maprojid
     )
 SELECT s.*
 FROM summary s);
@@ -91,8 +91,8 @@ CREATE TABLE cpdb_opendata_projects_pts AS (
     FROM cpdb_projects as p,
     cpdb_projects_combined as pc, 
     cpdb_dcpattributes_pts as g
-    WHERE p.projectid = pc.projectid AND
-    p.projectid = g.projectid
+    WHERE p.maprojid = pc.maprojid AND
+    p.maprojid = g.maprojid
     )
 SELECT S.*
 FROM summary s);
@@ -123,8 +123,8 @@ CREATE TABLE cpdb_opendata_projects_poly AS (
     FROM cpdb_projects as p,
     cpdb_projects_combined as pc, 
     cpdb_dcpattributes_poly as g
-    WHERE p.projectid = pc.projectid AND
-    p.projectid = g.projectid
+    WHERE p.maprojid = pc.maprojid AND
+    p.maprojid = g.maprojid
     )
 SELECT S.*
 FROM summary s);
