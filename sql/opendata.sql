@@ -1,12 +1,12 @@
-DROP VIEW IF EXISTS cpdb_opendata_commitments;
+DROP TABLE IF EXISTS cpdb_opendata_commitments;
 CREATE TABLE cpdb_opendata_commitments AS (
     WITH summary AS (
     SELECT c.maprojid, 
     c.magency,
     c.projectid,
-    p.description, --JOIN
+    p.description, 
     c.budgetline,
-    b.projecttype, --JOIN
+    b.projecttype, 
     c.plancommdate,
     c.commitmentdescription,
     c.commitmentcode,
@@ -19,7 +19,7 @@ CREATE TABLE cpdb_opendata_commitments AS (
     c.nccother,
     p.noncitycost AS totalnoncityplannedcommit,
     p.totalcost AS totalplannedcommit,
-    b.sagencyacro, --JOIN
+    b.sagencyacro, 
     b.sagencyname,
     p.magencyacro, 
     p.magencyname, 
@@ -33,4 +33,13 @@ CREATE TABLE cpdb_opendata_commitments AS (
 SELECT s.*
 FROM summary s);
 
-
+DROP TABLE IF EXISTS cpdb_opendata_projects;
+CREATE TABLE cpdb_opendata_projects AS (
+    WITH summary AS (
+    SELECT 
+    FROM
+    WHERE
+SELECT s.*
+FROM summary s);
+    )
+)
