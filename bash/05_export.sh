@@ -12,12 +12,16 @@ mkdir -p output && (
     cd output
     SHP_export cpdb_dcpattributes_pts MULTIPOINT &
     SHP_export cpdb_dcpattributes_poly MULTIPOLYGON &
+    SHP_export cpdb_opendata_projects_pts MULTIPOINT &
+    SHP_export cpdb_opendata_projects_poly MULTIPOLYGON &
     CSV_export cpdb_adminbounds &
     CSV_export cpdb_projects_combined &
     CSV_export cpdb_commitments &
     CSV_export cpdb_projects &
     CSV_export cpdb_budgets &
     CSV_export cpdb_projects_spending_byyear &
+    CSV_export cpdb_opendata_projects &
+    CSV_export cpdb_opendata_commitments &
     wait 
     echo 
     echo "export complete"

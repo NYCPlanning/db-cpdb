@@ -51,15 +51,15 @@ CREATE TABLE cpdb_opendata_projects AS (
     p.nccother, 
     p.noncitycost AS totalnoncityplannedcommit, 
     p.totalcost AS totalplannedcommit, 
-    pc.totalspend,
-    pc.maxdate, 
-    pc.mindate,
+    --pc.totalspend,
+    --pc.maxdate, 
+    --pc.mindate,
     p.magencyacro,
     p.magencyname,
-    pc.typecategory,
+    --pc.typecategory,
     p.ccpversion
     FROM cpdb_projects as p,
-    cpdb_projects_combined as pc
+    --cpdb_projects_combined as pc
     WHERE p.maprojid = pc.maprojid
     )
 SELECT s.*
@@ -80,22 +80,26 @@ CREATE TABLE cpdb_opendata_projects_pts AS (
     p.nccother, 
     p.noncitycost AS totalnoncityplannedcommit, 
     p.totalcost AS totalplannedcommit, 
-    pc.totalspend,
-    pc.maxdate, 
-    pc.mindate,
+    --pc.totalspend,
+    --pc.maxdate, 
+    --pc.mindate,
     p.magencyacro,
     p.magencyname,
-    pc.typecategory,
+    --pc.typecategory,
     p.ccpversion,
-    g.geom
+    d.geom
     FROM cpdb_projects as p,
-    cpdb_projects_combined as pc, 
-    cpdb_dcpattributes_pts as g
-    WHERE p.maprojid = pc.maprojid AND
-    p.maprojid = g.maprojid
+    --cpdb_projects_combined as pc, 
+    cpdb_dcpattributes as d
+    WHERE 
+    --p.maprojid = pc.maprojid AND
+    p.maprojid = d.maprojid
     )
 SELECT S.*
-FROM summary s);
+FROM summary s
+WHERE ST_GeometryType(geom)= 'ST_MultiPoint');
+
+
 
 DROP TABLE IF EXISTS cpdb_opendata_projects_poly;
 CREATE TABLE cpdb_opendata_projects_poly AS (
@@ -119,12 +123,14 @@ CREATE TABLE cpdb_opendata_projects_poly AS (
     p.magencyname,
     pc.typecategory,
     p.ccpversion,
-    g.geom
+    d.geom
     FROM cpdb_projects as p,
-    cpdb_projects_combined as pc, 
-    cpdb_dcpattributes_poly as g
-    WHERE p.maprojid = pc.maprojid AND
+    --cpdb_projects_combined as pc, 
+    cpdb_dcpattributes as d
+    WHERE 
+    --p.maprojid = pc.maprojid AND
     p.maprojid = g.maprojid
     )
 SELECT S.*
-FROM summary s);
+FROM summary s
+WHERE ST_GeometryType(geom)= 'ST_MultiPolygon');
