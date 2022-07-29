@@ -17,6 +17,11 @@ psql $BUILD_ENGINE -f analysis/projects_by_communitydist_spending_date.sql
 echo 'Creating agency validated geoms summary table'
 psql $BUILD_ENGINE -f analysis/agency_validated_geoms_summary_table.sql
 
+# Geospatial check 
+echo 'Creating geospatial check table'
+psql $BUILD_ENGINE -f sql/borough_boundaries_wi.sql
+psql $BUILD_ENGINE -f analysis/geospatial_check.sql
+
 mkdir -p $(pwd)/output/analysis && (
     cd $(pwd)/output/analysis
     CSV_export cpdb_summarystats_magency &
