@@ -1,39 +1,41 @@
 --create tabular cpdb commitments table
 DROP TABLE IF EXISTS cpdb_opendata_commitments;
-CREATE TABLE cpdb_opendata_commitments AS (
-    WITH summary AS (
-    SELECT c.maprojid, 
-    c.magency,
-    c.projectid,
-    p.description, 
-    c.budgetline,
-    b.projecttype, 
-    c.plancommdate,
-    c.commitmentdescription,
-    c.commitmentcode,
-    c.typc,
-    c.typcname,
-    c.ccnonexempt,
-    c.ccexempt,
-    p.citycost AS totalcityplannedcommit
-    c.nccstate,
-    c.nccfederal, 
-    c.nccother,
-    p.noncitycost AS totalnoncityplannedcommit,
-    p.totalcost AS totalplannedcommit,
-    b.sagencyacro, 
-    b.sagencyname,
-    p.magencyacro, 
-    p.magencyname, 
-    c.ccpversion
-    FROM cpdb_commitments as c,
-        cpdb_budgets as b, 
-        cpdb_projects as p
-    WHERE c.maprojid = p.maprojid AND
-    c.maprojid = b.maprojid
-    )
-SELECT s.*
-FROM summary s);
+WITH commit_proj as (
+SELECT 
+c.maprojid, 
+c.magency,
+c.projectid,
+p.description, 
+c.budgetline,
+c.plancommdate,
+c.commitmentdescription,
+c.commitmentcode,
+c.typc,
+c.typcname,
+c.ccnonexempt,
+c.ccexempt,
+p.citycost AS totalcityplannedcommit,
+c.nccstate,
+c.nccfederal, 
+c.nccother,
+p.noncitycost AS totalnoncityplannedcommit,
+p.totalcost AS totalplannedcommit,
+p.magencyacro, 
+p.magencyname, 
+c.ccpversion
+FROM cpdb_commitments as c,
+    cpdb_projects as p
+WHERE c.maprojid = p.maprojid)
+SELECT 
+c.*,
+b.projecttype, 
+b.sagencyacro, 
+b.sagencyname
+INTO cpdb_opendata_commitments
+FROM commit_proj as c, cpdb_budgets as b
+WHERE
+c.budgetline = b.budgetline
+and c.maprojid = b.maprojid;
 
 --Create tabular cpdb projects table
 DROP TABLE IF EXISTS cpdb_opendata_projects;
