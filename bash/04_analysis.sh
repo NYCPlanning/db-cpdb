@@ -19,8 +19,8 @@ psql $BUILD_ENGINE -f analysis/agency_validated_geoms_summary_table.sql
 
 # Geospatial check 
 echo 'Creating geospatial check table'
-psql $BUILD_ENGINE -f sql/borough_boundaries_wi.sql
-psql $BUILD_ENGINE -f analysis/geospatial_check.sql
+psql $BUILD_ENGINE -v ccp_v=$ccp_v -f sql/borough_boundaries_wi.sql
+psql $BUILD_ENGINE -v ccp_v=$ccp_v -f analysis/geospatial_check.sql
 
 mkdir -p $(pwd)/output/analysis && (
     cd $(pwd)/output/analysis
