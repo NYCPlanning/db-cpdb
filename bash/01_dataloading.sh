@@ -5,6 +5,7 @@ source bash/config.sh
 psql $BUILD_ENGINE -f sql/_create.sql
 
 # Spatial boundaries
+import dcp_boroboundaries_wi &
 import dcp_stateassemblydistricts &
 import dcp_ct2020 &
 import dcp_congressionaldistricts &
