@@ -1,4 +1,4 @@
-DROP IF EXISTS geospatial_check_table;
+DROP TABLE IF EXISTS geospatial_check_table;
 CREATE TABLE IF NOT EXISTS geospatial_check_table(
     v character varying,
     result character varying
