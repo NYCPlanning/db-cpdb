@@ -1,12 +1,12 @@
---create tabular cpdb commitments table
+--All Commitments Tabular
 DROP TABLE IF EXISTS cpdb_opendata_commitments;
-WITH commit_proj as (
 SELECT 
 c.maprojid, 
 c.magency,
 c.projectid,
 p.description, 
 c.budgetline,
+b.projecttype,
 c.plancommdate,
 c.commitmentdescription,
 c.commitmentcode,
@@ -20,24 +20,17 @@ c.nccfederal,
 c.nccother,
 p.noncitycost AS totalnoncityplannedcommit,
 p.totalcost AS totalplannedcommit,
+b.sagencyacro, 
+b.sagencyname,
 p.magencyacro, 
 p.magencyname, 
 c.ccpversion
-FROM cpdb_commitments as c,
-    cpdb_projects as p
-WHERE c.maprojid = p.maprojid)
-SELECT 
-c.*,
-b.projecttype, 
-b.sagencyacro, 
-b.sagencyname
 INTO cpdb_opendata_commitments
-FROM commit_proj as c, cpdb_budgets as b
-WHERE
-c.budgetline = b.budgetline
-and c.maprojid = b.maprojid;
+FROM cpdb_commitments as c
+LEFT JOIN cpdb_projects as p ON c.maprojid = p.maprojid
+LEFT JOIN cpdb_budgets as b ON c.budgetline = b.budgetline AND c.maprojid = b.maprojid;
 
---Create tabular cpdb projects table
+--All Projects Tabular
 DROP TABLE IF EXISTS cpdb_opendata_projects;
 WITH proj AS (
 SELECT 
@@ -67,6 +60,7 @@ SELECT p.*
 INTO cpdb_opendata_projects
 FROM proj as p;
 
+--Project Points Table
 DROP TABLE IF EXISTS cpdb_opendata_projects_pts;
 WITH proj_pts AS (
 SELECT 
@@ -101,7 +95,7 @@ SELECT p.*
 INTO cpdb_opendata_projects_pts
 FROM proj_pts as p;
 
-
+--Project Polygons Table
 DROP TABLE IF EXISTS cpdb_opendata_projects_poly;
 WITH proj_poly AS (
 SELECT 
