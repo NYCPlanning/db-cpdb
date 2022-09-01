@@ -40,7 +40,7 @@ function cpdb_archive {
 function cpdb_upload {
     local branchname=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)
     local DATE=$(date "+%Y-%m-%d")
-    local SPACES="spaces/edm-private/db-cpdb/$branchname"
+    local SPACES="spaces/edm-publishing/db-cpdb/$branchname"
     local HASH=$(git describe --always)
     mc rm -r --force $SPACES/latest
     mc rm -r --force $SPACES/$DATE
@@ -64,7 +64,7 @@ function share {
             local branch=${1:-main}
             local version=${2:-latest}
             local file=${3:-output.zip}
-            mc share download spaces/edm-private/db-cpdb/$branch/$version/output/$file
+            mc share download spaces/edm-publishing/db-cpdb/$branch/$version/output/$file
         ;;
     esac
 }
