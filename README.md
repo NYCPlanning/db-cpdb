@@ -11,6 +11,8 @@
 
 3. Make sure to edit the `version.env` file to reflect the current fiscal year.
 
+> The fiscal year begins on July 1st of one calendar year and ends on June 30th of the following calendar year. See link here: https://www1.nyc.gov/site/omb/faq/frequently-asked-questions.page#:~:text=The%20fiscal%20year%20begins%20on,of%20the%20following%20calendar%20year.
+
 > Note that a cpdb build is triggered by a push event to the repo. The output files will be stored in subfolders named after branches.
 
 4. Since cpdb is still a private database. You can generate a pre-signed sharable link using the `./cpdb.sh share` command. Run `./cpdb.sh share --help` to see instructions.
