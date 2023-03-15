@@ -19,7 +19,7 @@ import nypd_policeprecincts &
 import fdny_firecompanies &
 
 # Building and lot-level info
-import dcp_mappluto &
+import dcp_mappluto_wi &
 import dcp_facilities 20210811 &
 import doitt_buildingfootprints &
 
