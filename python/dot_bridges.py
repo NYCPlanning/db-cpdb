@@ -7,8 +7,6 @@ from utils import psql_insert_copy
 engine = create_engine(os.environ.get("BUILD_ENGINE", ""))
 
 # helper function
-
-
 def fms_parse(x):
     # case 1: comma separated fms ids
     if "," in x:
