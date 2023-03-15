@@ -39,9 +39,7 @@ bridges = pd.read_sql_query(
 )
 
 # fms_id cleaning
-bridges_cleaned = pd.DataFrame()
-for i in range(len(bridges)):
-    bridges_cleaned = bridges_cleaned.append(fms_parse(bridges.iloc[i, :]))
+bridges_cleaned = pd.concat([fms_parse(bridges.iloc[i, :]) for i in range(len(bridges))])
 
 bridges_cleaned["ogc_fid"] = bridges_cleaned["ogc_fid"].astype("str")
 
