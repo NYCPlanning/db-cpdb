@@ -11,29 +11,25 @@ engine = create_engine(os.environ.get("BUILD_ENGINE", ""))
 
 def fms_parse(x):
     # case 1: comma separated fms ids
-    if "," in x.fms_id:
-        fms_ids = x.fms_id.split(",")
+    if "," in x:
+        fms_ids = x.split(",")
         fms_ids = [i.strip() for i in fms_ids]
-        rows = pd.DataFrame([ x for _ in fms_ids])
-        rows["fms_id"] = fms_ids
     # case 2: / delimited fms ids
-    elif "/" in x.fms_id:
-        fms_ids = x.fms_id.split("/")
+    elif "/" in x:
+        fms_ids = x.split("/")
         fms_ids[1:] = [fms_ids[0][0:-1] + i for i in fms_ids[1:]]
-        rows = pd.DataFrame([ x for _ in fms_ids])
-        rows["fms_id"] = fms_ids
     else:
-        rows = pd.DataFrame(x)
-    return rows
+        fms_ids = x
+    return fms_ids
 
 with engine.begin() as conn:
     # makes selection
     bridges = pd.read_sql_query(
         text("SELECT * FROM dot_projects_bridges WHERE fms_id is not NULL"), conn
     )
-
+    bridges["fms_id"] = bridges["fms_id"].apply(fms_parse)
     # fms_id cleaning
-    bridges_cleaned = pd.concat([ fms_parse(bridges.iloc[i, :]) for i in range(len(bridges))])
+    bridges_cleaned = bridges.explode("fms_id")
 
     bridges_cleaned["ogc_fid"] = bridges_cleaned["ogc_fid"].astype("str")
 
