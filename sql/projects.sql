@@ -1,7 +1,7 @@
 --Create Project table view
 
 --with scraped data
-DROP VIEW IF EXISTS cpdb_projects;
+DROP TABLE IF EXISTS cpdb_projects;
 CREATE TABLE cpdb_projects AS(
        WITH summary AS (
 	SELECT p.ccpversion,

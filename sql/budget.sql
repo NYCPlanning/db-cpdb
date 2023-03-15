@@ -1,7 +1,7 @@
 --Create Budget staging table
 
 --with scraped data
-DROP VIEW IF EXISTS cpdb_budgets;
+DROP TABLE IF EXISTS cpdb_budgets;
 CREATE TABLE cpdb_budgets AS (
         WITH summary AS (
 	SELECT p.ccpversion,
