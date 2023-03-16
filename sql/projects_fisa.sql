@@ -7,7 +7,7 @@ fcst_pv_amt = (case when fcst_pv_amt ~* '_' then '0' else  fcst_pv_amt end);
 
 --Create Project table view
 -- with fisa data
-DROP VIEW IF EXISTS cpdb_projects;
+DROP TABLE IF EXISTS cpdb_projects;
 CREATE TABLE cpdb_projects AS(
        WITH summary AS (
   SELECT 'fisa_'||p.cycle_fy AS ccpversion,

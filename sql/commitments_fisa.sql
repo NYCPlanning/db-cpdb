@@ -1,7 +1,7 @@
 --Create Commitments staging table
 
 --with fisa data
-DROP VIEW IF EXISTS cpdb_commitments;
+DROP TABLE IF EXISTS cpdb_commitments;
 CREATE TABLE cpdb_commitments AS (
         WITH summary AS (
         SELECT 'fisa_'||p.cycle_fy AS ccpversion,

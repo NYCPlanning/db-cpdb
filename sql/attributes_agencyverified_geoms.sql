@@ -30,7 +30,7 @@ AND a.bin::text <> '#REF!';
 -- add geom for projects based on bbl
 UPDATE dcp_cpdb_agencyverified a
 SET geom = ST_Centroid(b.wkb_geometry)
-FROM dcp_mappluto b 
+FROM dcp_mappluto_wi b 
 WHERE a.bbl::text = b.bbl::text
 AND a.bbl IS NOT NULL
 AND a.geom IS NULL;

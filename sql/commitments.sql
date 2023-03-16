@@ -1,7 +1,7 @@
 --Create Commitments staging table
 
 --with scraped data
-DROP VIEW IF EXISTS cpdb_commitments;
+DROP TABLE IF EXISTS cpdb_commitments;
 CREATE TABLE cpdb_commitments AS (
         WITH summary AS (
 	SELECT p.ccpversion,
