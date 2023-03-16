@@ -76,6 +76,7 @@ function import {
   local acl=$(get_acl $name $version)
   local version=$(get_version $name $version $acl)
   local target_dir=$(pwd)/.library/datasets/$name/$version
+  local output_dir=$(pwd)/output
   # Download sql dump for the datasets from data library
   if [ -f $target_dir/$name.sql ]; then
     echo "✅ $name.sql exists in cache"
@@ -93,6 +94,13 @@ function import {
   fi
   # Loading into Database
   psql $BUILD_ENGINE -f $target_dir/$name.sql
+  echo "$name,$version" >> "$output_dir/source_data_versions.csv"
+}
+
+function init_versions_file {
+  mkdir -p output
+  rm -f output/source_data_versions.csv
+  echo "schema_name,v" >> output/source_data_versions.csv
 }
 
 function CSV_export {

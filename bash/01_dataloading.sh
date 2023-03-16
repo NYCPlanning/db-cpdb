@@ -1,6 +1,9 @@
 #!/bin/bash
 source bash/config.sh
 
+# Create data_source_versions.csv
+init_versions_file
+
 # Reference tables
 psql $BUILD_ENGINE -f sql/_create.sql
 
