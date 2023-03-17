@@ -93,7 +93,7 @@ function import {
   fi
   # Loading into Database
   psql $BUILD_ENGINE -f $target_dir/$name.sql
-  echo "$name,$version" >> "output/source_data_versions.csv"
+  echo "$name,$version" >> output/source_data_versions.csv
 }
 
 function init_versions_file {
