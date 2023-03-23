@@ -93,6 +93,10 @@ function import {
   fi
   # Loading into Database
   psql $BUILD_ENGINE -f $target_dir/$name.sql
+  psql $BUILD_ENGINE -c \
+    "ALTER TABLE $name ADD COLUMN v text; \
+    UPDATE $name SET v = '$version'; \
+    INSERT INTO source_data_versions VALUES ('$name','$version');";
 }
 
 function CSV_export {

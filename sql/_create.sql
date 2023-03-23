@@ -63,3 +63,7 @@ CREATE TABLE dcp_cpdb_agencyverified (
 );
 \COPY dcp_cpdb_agencyverified FROM 'data/dcp_cpdb_agencyverified.csv' DELIMITER ',' CSV HEADER;
 
+CREATE TABLE source_data_versions (
+    schema_name character varying,
+    v character varying
+);
