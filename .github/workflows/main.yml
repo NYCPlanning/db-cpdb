@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     env:
       EDM_DATA: ${{ secrets.EDM_DATA }}
       BUILD_ENGINE: postgresql://postgres:postgres@localhost:5432/postgres
@@ -14,7 +14,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.DO_SECRET_ACCESS_KEY }}
     services:
       postgres:
-        image: postgis/postgis:11-3.0-alpine
+        image: postgis/postgis:15-3.3-alpine
         env:
           POSTGRES_PASSWORD: postgres
         options: >-
@@ -22,14 +22,15 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
         ports:
           - 5432:5432
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: "3.9"
 
       - name: install dependencies
         run: |
@@ -44,10 +45,10 @@ jobs:
 
       - name: 01 dataloading
         run: ./cpdb.sh dataloading
-      
+
       - name: 02 Build Attribute
         run: ./cpdb.sh attribute
-      
+
       - name: 03 Adminbounds
         run: ./cpdb.sh adminbounds
 
@@ -56,10 +57,10 @@ jobs:
 
       - name: 05 Export
         run: ./cpdb.sh export
-      
+
       - name: 06 Upload to DigitalOcean
         run: ./cpdb.sh upload
-      
+
       - name: 07 Archive to secrets.EDM_DATA
         if: github.ref == 'refs/heads/main'
         run: ./cpdb.sh archive --all
