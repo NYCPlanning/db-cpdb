@@ -1,4 +1,4 @@
-name: capital spending
+name: Archive Capital Spending Data
 
 on:
   workflow_dispatch:
