@@ -1,12 +1,3 @@
----
-name: Update
-about: Master issue for CPDB releases
-title: "{Version} CPDB Update"
-labels: ''
-assignees: ''
-
----
-
 The purpose of this issue is to help the team track the tasks that need to occur before kicking off a CPDB update.
 
 # Update source data
@@ -31,7 +22,7 @@ Before initiating a build of cpdb, verify the latest version in DigitalOcean mat
 - [ ] dcp_cpdb_agencyverified (does not get updated)
 
 # Building and lot-level info
-- [ ] dcp_mappluto https://www1.nyc.gov/site/planning/data-maps/open-data/dwn-pluto-mappluto.page
+- [ ] dcp_mappluto_wi https://www1.nyc.gov/site/planning/data-maps/open-data/dwn-pluto-mappluto.page
 - [ ] dcp_facilities https://www1.nyc.gov/site/planning/data-maps/open-data/dwn-selfac.page
 - [ ] doitt_buildingfootprints https://data.cityofnewyork.us/Housing-Development/Building-Footprints/nqwf-w8eh
 
@@ -44,7 +35,9 @@ Come from [Geosupport update](https://github.com/NYCPlanning/db-data-library/act
 - [ ] dcp_statesenatedistricts https://www1.nyc.gov/site/planning/data-maps/open-data/districts-download-metadata.page
 - [ ] dcp_municipalcourtdistricts https://www1.nyc.gov/site/planning/data-maps/open-data/districts-download-metadata.page
 - [ ] dcp_school_districts https://www1.nyc.gov/site/planning/data-maps/open-data/districts-download-metadata.page
-- [ ] dcp_trafficanalysiszones - this dataset is almost never updated 
 - [ ] dcp_councildistricts https://www1.nyc.gov/assets/planning/download/pdf/data-maps/open-data/nycc_metadata.pdf
+
+## Other
+- [ ] dcp_trafficanalysiszones - this dataset is almost never updated 
 - [ ] nypd_policeprecincts https://data.cityofnewyork.us/Public-Safety/Police-Precincts/78dh-3ptz
 - [ ] fdny_firecompanies https://data.cityofnewyork.us/Public-Safety/Fire-Companies/iiv7-jaj9
