@@ -41,6 +41,9 @@ function calculate {
     local tablename=$dataset.$version
     mkdir -p .output && (
         cd .output
+        bq show \
+            --location=$location\
+            --dataset $dataset ||
         bq mk \
             --location=$location\
             --dataset $dataset
