@@ -8,6 +8,7 @@ location=US
 
 function import_data {
     echo "version: $version"
+    create_source_data_table
     import fisa_capitalcommitments $version
 }
 

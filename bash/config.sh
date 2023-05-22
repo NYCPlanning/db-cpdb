@@ -70,6 +70,14 @@ function get_version {
   echo "$version"
 }
 
+function create_source_data_table {
+  psql $BUILD_ENGINE --set ON_ERROR_STOP=1 -c \
+  "CREATE TABLE source_data_versions (
+    schema_name character varying,
+    v character varying
+  );"
+}
+
 function import {
   local name=$1
   local version=${2:-latest} #default version to latest
@@ -102,7 +110,7 @@ function import {
 
 # Function to run a sql command from a string
 function run_sql_command {
-  psql "${BUILD_ENGINE}" --quiet --command "$1"
+  psql "${BUILD_ENGINE}" --set ON_ERROR_STOP=1  --quiet --command "$1"
 }
 
 
