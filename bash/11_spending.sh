@@ -1,6 +1,6 @@
 #!/bin/bash
 source bash/config.sh
-
+set -e
 
 # Import fisa_capitalcommitments to database
 version=$(get_version fisa_capitalcommitments latest private)
