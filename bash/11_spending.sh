@@ -27,7 +27,7 @@ function fisa {
         bq mk \
             --location=$location\
             --dataset $dataset
-        bq mk $tablename
+        bq mk --force $tablename
         bq load \
             --location=$location\
             --autodetect\
