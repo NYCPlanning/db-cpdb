@@ -1,6 +1,5 @@
 #!/bin/bash
 source bash/config.sh
-set -e
 
 # Reference tables
 psql $BUILD_ENGINE -f sql/_create.sql
