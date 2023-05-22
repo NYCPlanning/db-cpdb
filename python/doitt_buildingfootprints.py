@@ -12,7 +12,7 @@ with engine.begin() as conn:
         text("SELECT * FROM doitt_buildingfootprints_source"), conn
     )
     # bin cleaning
-    doitt_buildingfootprints_source_clean = doitt_buildingfootprints_source[doitt_buildingfootprints_source["bin"].str.isnumeric()]
+    doitt_buildingfootprints_source_clean = doitt_buildingfootprints_source[doitt_buildingfootprints_source["bin"].astype(str).str.isnumeric()]
 
     # write new table to postgres
     doitt_buildingfootprints_source_clean.to_sql(
