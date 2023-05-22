@@ -1,5 +1,6 @@
 #!/bin/bash
 source bash/config.sh
+set -e
 
 # Reference tables
 psql $BUILD_ENGINE -f sql/_create.sql
@@ -38,7 +39,7 @@ import ddc_capitalprojects_publicbuildings &
 wait
 
 echo "fixing dot_bridges"
-psql $BUILD_ENGINE -c "ALTER TABLE dot_projects_bridges RENAME COLUMN fmsid TO fms_id;"
-psql $BUILD_ENGINE -c "DROP TABLE IF EXISTS capital_spending;"
-psql $BUILD_ENGINE -c "ALTER TABLE cpdb_capital_spending RENAME TO capital_spending;"
+run_sql_command "ALTER TABLE dot_projects_bridges RENAME COLUMN fmsid TO fms_id;"
+run_sql_command "DROP TABLE IF EXISTS capital_spending;"
+run_sql_command "ALTER TABLE cpdb_capital_spending RENAME TO capital_spending;"
 python3 python/dot_bridges.py

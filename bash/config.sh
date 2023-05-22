@@ -99,6 +99,19 @@ function import {
     INSERT INTO source_data_versions VALUES ('$name','$version');";
 }
 
+
+# Function to run a sql command from a string
+function run_sql_command {
+  psql "${BUILD_ENGINE}" --quiet --command "$1"
+}
+
+
+# Function to run a sql file
+function run_sql_file {
+  psql "${BUILD_ENGINE}" --set ON_ERROR_STOP=1 --file "$1"
+}
+
+
 function CSV_export {
   local name=$1
   local output_name=${2:-$name}
