@@ -12,6 +12,7 @@ function import_data {
     import fisa_capitalcommitments $version
 }
 
+
 # Loading the latest fisa_capitalcommitments to bigquery
 function fisa {
     mkdir -p .output && (
@@ -20,6 +21,9 @@ function fisa {
         local tablename=$dataset.$version
         echo "$dataset"
         CSV_export $dataset
+        bq show \
+            --location=$location\
+            --dataset $dataset ||
         bq mk \
             --location=$location\
             --dataset $dataset
