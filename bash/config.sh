@@ -95,7 +95,7 @@ function import {
         mc cp spaces/edm-recipes/datasets/$name/$version/$name.sql $name.sql
       
       else
-        curl -O $URL/datasets/$name/$version/$name.sql $name.sql
+        curl -sS -O $URL/datasets/$name/$version/$name.sql $name.sql
       fi
     )
   fi
