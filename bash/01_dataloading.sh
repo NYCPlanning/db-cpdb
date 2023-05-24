@@ -2,7 +2,7 @@
 source bash/config.sh
 
 # Reference tables
-psql $BUILD_ENGINE -f sql/_create.sql
+psql "${BUILD_ENGINE}" -f "sql/_create.sql"
 
 # Spatial boundaries
 import dcp_boroboundaries_wi &
@@ -38,7 +38,15 @@ import ddc_capitalprojects_publicbuildings &
 wait
 
 echo "fixing dot_bridges"
-psql $BUILD_ENGINE -c "ALTER TABLE dot_projects_bridges RENAME COLUMN fmsid TO fms_id;"
-psql $BUILD_ENGINE -c "DROP TABLE IF EXISTS capital_spending;"
-psql $BUILD_ENGINE -c "ALTER TABLE cpdb_capital_spending RENAME TO capital_spending;"
+run_sql_command "ALTER TABLE dot_projects_bridges RENAME COLUMN fmsid TO fms_id;"
 python3 python/dot_bridges.py
+
+echo "fixing doitt_buildingfootprints"
+run_sql_command "ALTER TABLE doitt_buildingfootprints RENAME TO doitt_buildingfootprints_source;"
+python3 python/doitt_buildingfootprints.py
+run_sql_command "DROP TABLE IF EXISTS doitt_buildingfootprints_source;"
+
+
+echo "renaming cpdb_capital_spending to capital_spending"
+run_sql_command "DROP TABLE IF EXISTS capital_spending;"
+run_sql_command "ALTER TABLE cpdb_capital_spending RENAME TO capital_spending;"

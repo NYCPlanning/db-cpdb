@@ -70,6 +70,14 @@ function get_version {
   echo "$version"
 }
 
+function create_source_data_table {
+  psql $BUILD_ENGINE --set ON_ERROR_STOP=1 -c \
+  "CREATE TABLE source_data_versions (
+    schema_name character varying,
+    v character varying
+  );"
+}
+
 function import {
   local name=$1
   local version=${2:-latest} #default version to latest
@@ -87,7 +95,7 @@ function import {
         mc cp spaces/edm-recipes/datasets/$name/$version/$name.sql $name.sql
       
       else
-        curl -O $URL/datasets/$name/$version/$name.sql $name.sql
+        curl -sS -O $URL/datasets/$name/$version/$name.sql $name.sql
       fi
     )
   fi
@@ -98,6 +106,19 @@ function import {
     UPDATE $name SET v = '$version'; \
     INSERT INTO source_data_versions VALUES ('$name','$version');";
 }
+
+
+# Function to run a sql command from a string
+function run_sql_command {
+  psql "${BUILD_ENGINE}" --set ON_ERROR_STOP=1  --quiet --command "$1"
+}
+
+
+# Function to run a sql file
+function run_sql_file {
+  psql "${BUILD_ENGINE}" --set ON_ERROR_STOP=1 --file "$1"
+}
+
 
 function CSV_export {
   local name=$1

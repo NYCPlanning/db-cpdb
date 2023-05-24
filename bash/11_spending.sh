@@ -1,6 +1,6 @@
 #!/bin/bash
 source bash/config.sh
-
+set -e
 
 # Import fisa_capitalcommitments to database
 version=$(get_version fisa_capitalcommitments latest private)
@@ -8,8 +8,10 @@ location=US
 
 function import_data {
     echo "version: $version"
+    create_source_data_table
     import fisa_capitalcommitments $version
 }
+
 
 # Loading the latest fisa_capitalcommitments to bigquery
 function fisa {
@@ -19,10 +21,13 @@ function fisa {
         local tablename=$dataset.$version
         echo "$dataset"
         CSV_export $dataset
+        bq show \
+            --location=$location\
+            --dataset $dataset ||
         bq mk \
             --location=$location\
             --dataset $dataset
-        bq mk $tablename
+        bq mk --force $tablename
         bq load \
             --location=$location\
             --autodetect\
@@ -40,6 +45,9 @@ function calculate {
     local tablename=$dataset.$version
     mkdir -p .output && (
         cd .output
+        bq show \
+            --location=$location\
+            --dataset $dataset ||
         bq mk \
             --location=$location\
             --dataset $dataset
